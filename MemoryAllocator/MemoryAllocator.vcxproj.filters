@@ -18,5 +18,11 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cg_malloc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cg_malloc.h">
+      <Filter>Source Files</Filter>
 </Project>
