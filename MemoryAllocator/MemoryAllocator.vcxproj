@@ -157,6 +157,8 @@
   <ItemGroup>
     <ClInclude Include="BlockDescriptor.h" />
     <ClInclude Include="cg_malloc.h" />
+    <ClInclude Include="DoublyLinkedList.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
