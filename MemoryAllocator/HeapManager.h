@@ -8,7 +8,7 @@ class HeapManager
 public:
 	static HeapManager* create(void* i_pHeapMemory, size_t i_HeapMemorySize, unsigned int i_numDescriptors);
 
-	// allocates memory. named with a underscore to resolve name clash 
+	// allocates memory. named with a underscore to resolve name clash
 	void* _alloc(size_t i_bytes);
 	// allocation with alignment. returns a block of memory with a given alignment
 	void* _alloc(size_t i_bytes, unsigned int i_alignment);

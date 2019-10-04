@@ -27,7 +27,10 @@
     <ClCompile Include="HeapManager_UnitTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HeapManagerProxy-Sample.cpp">
+    <ClCompile Include="HeapManagerProxy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HeapManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -35,7 +38,7 @@
     <ClInclude Include="Externals\HeapManagerProxy.h">
       <Filter>Externals</Filter>
     </ClInclude>
-    <ClInclude Include="HeapManager-Sample.h">
+    <ClInclude Include="HeapManager.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
