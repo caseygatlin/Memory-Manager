@@ -18,18 +18,21 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="cg_malloc.cpp">
+    <ClCompile Include="HeapManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BlockDescList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="cg_malloc.h">
+    <ClInclude Include="HeapManager.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="DoublyLinkedList.h">
+    <ClInclude Include="BlockDesc.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="BlockDescriptor.h">
+    <ClInclude Include="BlockDescList.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
