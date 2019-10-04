@@ -1,9 +1,10 @@
 #include <conio.h>
-// yes, i'm too lazy to put this in a header file
-extern bool HeapManager_UnitTest();
+#include "HeapManager_UnitTest.h"
 
 void main(int i_argc, char ** i_argl)
 {
-	HeapManager_UnitTest();
+	//HeapManager_UnitTest();
+	HeapManager_UnitTest_Allocate();
+
 	_getch();
 }

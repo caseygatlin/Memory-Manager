@@ -41,5 +41,11 @@
     <ClInclude Include="HeapManager.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="HeapManager_UnitTest.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockDesc.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

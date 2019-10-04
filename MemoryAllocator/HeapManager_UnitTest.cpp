@@ -5,9 +5,50 @@
 #include <algorithm>
 #include <vector>
 
-#define SUPPORTS_ALIGNMENT
+#include "HeapManager_UnitTest.h"
+
+//#define SUPPORTS_ALIGNMENT
 #define SUPPORTS_SHOWFREEBLOCKS
 #define SUPPORTS_SHOWOUTSTANDINGALLOCATIONS
+
+#define USE_HEAP_ALLOC
+#define TEST_ALLOCATIONS
+
+bool HeapManager_UnitTest_Allocate()
+{
+	using namespace HeapManagerProxy;
+
+	const size_t 		sizeHeap = 1024 * 1024;
+	const unsigned int 	numDescriptors = 2048;
+
+#ifdef USE_HEAP_ALLOC
+	void* pHeapMemory = HeapAlloc(GetProcessHeap(), 0, sizeHeap);
+#else
+	// Get SYSTEM_INFO, which includes the memory page size
+	SYSTEM_INFO SysInfo;
+	GetSystemInfo(&SysInfo);
+	// round our size to a multiple of memory page size
+	assert(SysInfo.dwPageSize > 0);
+	size_t sizeHeapInPageMultiples = SysInfo.dwPageSize * ((sizeHeap + SysInfo.dwPageSize) / SysInfo.dwPageSize);
+	void* pHeapMemory = VirtualAlloc(NULL, sizeHeapInPageMultiples, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
+#endif
+	assert(pHeapMemory);
+
+	HeapManager * pHeapManager = CreateHeapManager(pHeapMemory, sizeHeap, numDescriptors);
+	assert(pHeapManager);
+
+	if (pHeapManager == nullptr)
+		return false;
+
+#ifdef TEST_ALLOCATIONS
+	alloc(pHeapManager, 32);
+	ShowFreeBlocks(pHeapManager);
+	ShowOutstandingAllocations(pHeapManager);
+#endif
+
+	return true;
+}
+
 
 bool HeapManager_UnitTest()
 {

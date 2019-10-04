@@ -49,42 +49,42 @@ namespace HeapManagerProxy
 	}
 
 
-	bool Contains( const HeapManager * i_pManager, void * i_ptr )
+	bool Contains(  HeapManager * i_pManager, void * i_ptr )
 	{
 		assert( i_pManager );
 
 		return i_pManager->Contains( i_ptr );
 	}
 
-	bool IsAllocated( const HeapManager * i_pManager, void * i_ptr )
+	bool IsAllocated(  HeapManager * i_pManager, void * i_ptr )
 	{
 		assert( i_pManager );
 
 		return i_pManager->IsAllocated( i_ptr );
 	}
 
-	size_t GetLargestFreeBlock( const HeapManager * i_pManager )
+	size_t GetLargestFreeBlock(  HeapManager * i_pManager )
 	{
 		assert( i_pManager );
 
 		return i_pManager->getLargestFreeBlock();
 	}
 
-	size_t GetTotalFreeMemory( const HeapManager * i_pManager )
+	size_t GetTotalFreeMemory(  HeapManager * i_pManager )
 	{
 		assert( i_pManager );
 
 		return i_pManager->getTotalFreeMemory();
 	}
 
-	void ShowFreeBlocks( const HeapManager * i_pManager )
+	void ShowFreeBlocks(  HeapManager * i_pManager )
 	{
 		assert( i_pManager );
 
 		i_pManager->ShowFreeBlocks();
 	}
 
-	void ShowOutstandingAllocations( const HeapManager * i_pManager )
+	void ShowOutstandingAllocations(  HeapManager * i_pManager )
 	{
 		assert( i_pManager );
 

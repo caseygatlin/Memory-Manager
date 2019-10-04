@@ -7,7 +7,7 @@ class HeapManager;
 
 namespace HeapManagerProxy
 {
-
+	
 	HeapManager *	CreateHeapManager( void * i_pMemory, size_t i_sizeMemory, unsigned int i_numDescriptors );
 	void			Destroy( HeapManager * i_pManager );
 

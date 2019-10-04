@@ -1,12 +1,14 @@
 #pragma once
 
-// this is a sample of what your HeapManager class interface should look like.
+#include "BlockDesc.h"
 
 class HeapManager
 {
 
 public:
-	static HeapManager* create(void* i_pHeapMemory, size_t i_HeapMemorySize, unsigned int i_numDescriptors);
+	HeapManager(void* i_pHeapMemory, size_t i_heapMemorySize, unsigned int i_numDescriptors);
+
+	static HeapManager* create(void* i_pHeapMemory, size_t i_heapMemorySize, unsigned int i_numDescriptors);
 
 	// allocates memory. named with a underscore to resolve name clash
 	void* _alloc(size_t i_bytes);
@@ -14,7 +16,7 @@ public:
 	void* _alloc(size_t i_bytes, unsigned int i_alignment);
 
 	// frees an allocation
-	void _free(void* i_ptr);
+	bool _free(void* i_ptr);
 
 	// attempt to merge abutting blocks.
 	void collect();
@@ -32,4 +34,13 @@ public:
 	// a debugging helper function to show us all the free blocks.
 	void ShowFreeBlocks();
 	// a debugging helper function to show us all the outstanding blocks.
+	void ShowOutstandingAllocations();
+
+	void destroy();
+
+private:
+	BlockDesc* m_pFreeMemHead;
+	BlockDesc* m_pUsedMemHead;
+	unsigned int m_numDesc;
+	unsigned int m_maxNumDesc;
 };
