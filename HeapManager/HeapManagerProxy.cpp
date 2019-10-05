@@ -1,6 +1,8 @@
 #define HEAP_PROXY_DEFINE
 #ifdef HEAP_PROXY_DEFINE
 
+#define __TRACK_ALLOCATIONS
+
 #include "HeapManagerProxy.h"
 
 #include <assert.h>

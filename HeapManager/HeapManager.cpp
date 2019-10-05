@@ -72,17 +72,15 @@ void* HeapManager::_alloc(size_t i_bytes)
 				}
 
 				// Create new BlockDesc in UsedMem
-				pUsed->m_pNext = m_pFreeMemHead + m_numDesc * sizeof(BlockDesc);
+				pUsed->m_pNext = m_pFreeMemHead + m_numDesc;
 				pUsedNew = pUsed->m_pNext;
 			}
 			else
 			{
-				pUsed = m_pFreeMemHead + m_numDesc * sizeof(BlockDesc);
-				pUsedNew = pUsed;
+				m_pUsedMemHead = m_pFreeMemHead + m_numDesc;
+				pUsedNew = m_pUsedMemHead;
 			}
 
-			// Create new BlockDesc in UsedMem
-			pUsedNew = m_pFreeMemHead + m_numDesc * sizeof(BlockDesc);
 
 			// Assign the BlockDesc base address
 			pUsedNew->m_pBlockBase = pFree->m_pBlockBase;
@@ -107,6 +105,7 @@ void* HeapManager::_alloc(size_t i_bytes)
 			pReturn = static_cast<void*>(c_pReturn);
 
 			//Exit loop and return
+			m_numDesc++;
 			return pReturn;
 
 		}
@@ -156,30 +155,38 @@ bool HeapManager::IsAllocated(void* i_ptr)
 
 void HeapManager::ShowFreeBlocks()
 {
+	std::cout << "----- FREE BLOCKS -----" << std::endl;
+
 	int blockCount = 1;
 	BlockDesc* pFree = m_pFreeMemHead;
 	while (pFree != nullptr)
 	{
 		std::cout << "Block " << blockCount << ":\t" << pFree << std::endl;
+		std::cout << "\tBase:\t" << pFree->m_pBlockBase << std::endl;
 		std::cout << "\tSize:\t" << pFree->m_sizeBlock << std::endl;
 		std::cout << "\tNext:\t" << pFree->m_pNext << std::endl;
 		blockCount++;
 		pFree = pFree->m_pNext;
 	}
+	std::cout << std::endl;
 }
 
 void HeapManager::ShowOutstandingAllocations()
 {
+	std::cout << "----- OUTSTANDING BLOCKS -----" << std::endl;
+
 	int blockCount = 1;
 	BlockDesc* pUsed = m_pUsedMemHead;
 	while (pUsed != nullptr)
 	{
 		std::cout << "Block " << blockCount << ":\t" << pUsed << std::endl;
+		std::cout << "\tBase:\t" << pUsed->m_pBlockBase << std::endl;
 		std::cout << "\tSize:\t" << pUsed->m_sizeBlock << std::endl;
 		std::cout << "\tNext:\t" << pUsed->m_pNext << std::endl;
 		blockCount++;
 		pUsed = pUsed->m_pNext;
 	}
+	std::cout << std::endl;
 }
 
 void HeapManager::destroy()

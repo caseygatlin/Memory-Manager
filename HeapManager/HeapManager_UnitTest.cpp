@@ -1,12 +1,14 @@
 #include "HeapManagerProxy.h"
 #include "HeapManager.h"
 #include "HeapManager_UnitTest.h"
+#include "BlockDesc.h"
 
 #include <Windows.h>
 
 #include <assert.h>
 #include <algorithm>
 #include <vector>
+#include <iostream>
 
 
 //#define SUPPORTS_ALIGNMENT
@@ -14,7 +16,6 @@
 #define SUPPORTS_SHOWOUTSTANDINGALLOCATIONS
 
 #define USE_HEAP_ALLOC
-#define TEST_ALLOCATIONS
 
 bool HeapManager_UnitTest_Allocate()
 {
@@ -23,17 +24,8 @@ bool HeapManager_UnitTest_Allocate()
 	const size_t 		sizeHeap = 1024 * 1024;
 	const unsigned int 	numDescriptors = 2048;
 
-#ifdef USE_HEAP_ALLOC
 	void* pHeapMemory = HeapAlloc(GetProcessHeap(), 0, sizeHeap);
-#else
-	// Get SYSTEM_INFO, which includes the memory page size
-	SYSTEM_INFO SysInfo;
-	GetSystemInfo(&SysInfo);
-	// round our size to a multiple of memory page size
-	assert(SysInfo.dwPageSize > 0);
-	size_t sizeHeapInPageMultiples = SysInfo.dwPageSize * ((sizeHeap + SysInfo.dwPageSize) / SysInfo.dwPageSize);
-	void* pHeapMemory = VirtualAlloc(NULL, sizeHeapInPageMultiples, MEM_RESERVE | MEM_COMMIT, PAGE_READWRITE);
-#endif
+
 	assert(pHeapMemory);
 
 	HeapManager * pHeapManager = CreateHeapManager(pHeapMemory, sizeHeap, numDescriptors);
@@ -42,11 +34,24 @@ bool HeapManager_UnitTest_Allocate()
 	if (pHeapManager == nullptr)
 		return false;
 
-#ifdef TEST_ALLOCATIONS
-	alloc(pHeapManager, 32);
+	std::cout << "Size of Block Descriptor: " << sizeof(BlockDesc) << std::endl;
+	std::cout << "Size of Guard Band: " << 4 << std::endl;
+	std::cout << "Size of Int: " << sizeof(int) << std::endl << std::endl;
+
+
+
+
+	std::cout << "********** BEFORE ALLOCATIONS **********" << std::endl << std::endl;
+	ShowFreeBlocks(pHeapManager);
+	
+
+
+
+	int* my_int = static_cast<int*>(alloc(pHeapManager, sizeof(int)));
+
+	std::cout << "********** AFTER ALLOCATIONS **********" << std::endl << std::endl;
 	ShowFreeBlocks(pHeapManager);
 	ShowOutstandingAllocations(pHeapManager);
-#endif
 
 	return true;
 }
