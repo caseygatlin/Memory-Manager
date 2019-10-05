@@ -19,6 +19,10 @@
 
 bool HeapManager_UnitTest_Allocate()
 {
+	std::cout << "This unit test allocates memory for 5 variables of different types.\n"
+		<< "Afterwards, it prints out the resulting block descriptors.\n"
+		<< "NOTE: Allocations are in 4-byte alignment and have two 4-byte guard bands.\n\n\n";
+
 	using namespace HeapManagerProxy;
 
 	const size_t 		sizeHeap = 1024 * 1024;
@@ -36,20 +40,55 @@ bool HeapManager_UnitTest_Allocate()
 
 	std::cout << "Size of Block Descriptor: " << sizeof(BlockDesc) << std::endl;
 	std::cout << "Size of Guard Band: " << 4 << std::endl;
-	std::cout << "Size of Int: " << sizeof(int) << std::endl << std::endl;
+	std::cout << "Size of Int: " << sizeof(int) << std::endl;
+	std::cout << "Size of Bool: " << sizeof(bool) << std::endl;
+	std::cout << "Size of Double: " << sizeof(double) << std::endl;
+	std::cout << "Size of Char: " << sizeof(char) << std::endl;
+	std::cout << "Size of Float: " << sizeof(float) << std::endl << std::endl;
 
 
 
-
+	// Before allocations
 	std::cout << "********** BEFORE ALLOCATIONS **********" << std::endl << std::endl;
 	ShowFreeBlocks(pHeapManager);
-	
 
-
-
+	// Int allocation
 	int* my_int = static_cast<int*>(alloc(pHeapManager, sizeof(int)));
 
-	std::cout << "********** AFTER ALLOCATIONS **********" << std::endl << std::endl;
+	// After Int
+	std::cout << "********** AFTER INT ALLOCATION **********" << std::endl << std::endl;
+	ShowFreeBlocks(pHeapManager);
+	ShowOutstandingAllocations(pHeapManager);
+
+	// Bool allocation
+	bool* my_bool = static_cast<bool*>(alloc(pHeapManager, sizeof(bool)));
+
+	// After Bool
+	std::cout << "********** AFTER BOOL ALLOCATION **********" << std::endl << std::endl;
+	ShowFreeBlocks(pHeapManager);
+	ShowOutstandingAllocations(pHeapManager);
+
+	// Double allocation
+	double* my_double = static_cast<double*>(alloc(pHeapManager, sizeof(double)));
+
+	// After Double
+	std::cout << "********** AFTER DOUBLE ALLOCATION **********" << std::endl << std::endl;
+	ShowFreeBlocks(pHeapManager);
+	ShowOutstandingAllocations(pHeapManager);
+
+	// Char allocation
+	char* my_char = static_cast<char*>(alloc(pHeapManager, sizeof(char)));
+
+	// After char
+	std::cout << "********** AFTER CHAR ALLOCATION **********" << std::endl << std::endl;
+	ShowFreeBlocks(pHeapManager);
+	ShowOutstandingAllocations(pHeapManager);
+
+	// Float allocation
+	float* my_float = static_cast<float*>(alloc(pHeapManager, sizeof(float)));
+
+	// After Float
+	std::cout << "********** AFTER FLOAT ALLOCATION **********" << std::endl << std::endl;
 	ShowFreeBlocks(pHeapManager);
 	ShowOutstandingAllocations(pHeapManager);
 

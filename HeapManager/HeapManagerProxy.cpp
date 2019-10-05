@@ -1,6 +1,3 @@
-#define HEAP_PROXY_DEFINE
-#ifdef HEAP_PROXY_DEFINE
-
 #define __TRACK_ALLOCATIONS
 
 #include "HeapManagerProxy.h"
@@ -101,5 +98,3 @@ namespace HeapManagerProxy
 	}
 
 } // namespace HeapManagerProxy
-
-#endif

@@ -1,12 +1,9 @@
-#define HEAP_DEFINE
-#ifdef HEAP_DEFINE
-
-
 #include <assert.h>
 #include "HeapManager.h"
 #include "BlockDesc.h"
 #include <iostream>
 
+// 4 byte guard bands in case of writing over allocated block
 const size_t GUARD_BANDING = 4;
 
 
@@ -30,13 +27,18 @@ HeapManager::HeapManager(void* i_pHeapMemory, size_t i_heapMemorySize, unsigned 
 	m_pUsedMemHead = nullptr;
 }
 
+// Inizializes new heap manager
 HeapManager* HeapManager::create(void* i_pHeapMemory, size_t i_heapMemorySize, unsigned int i_numDescriptors)
 {
+	// Defines new heap manager location in memory
 	HeapManager* pManager = static_cast<HeapManager*>(i_pHeapMemory);
+	
+	// Constructs heap manager
 	*pManager = HeapManager(i_pHeapMemory, i_heapMemorySize, i_numDescriptors);
 	return pManager;
 }
 
+// Allocates a given number of bytes and returns memory address
 void* HeapManager::_alloc(size_t i_bytes)
 {
 	// Make sure we don't go over our number of descriptors
@@ -64,8 +66,11 @@ void* HeapManager::_alloc(size_t i_bytes)
 		{
 			BlockDesc* pUsed = m_pUsedMemHead;
 			BlockDesc* pUsedNew = nullptr;
+
+			// If our UsedMem list has at least one item
 			if (pUsed != nullptr)
 			{
+				//Cycle through till the item before the last item
 				while (pUsed->m_pNext != nullptr)
 				{
 					pUsed = pUsed->m_pNext;
@@ -75,8 +80,11 @@ void* HeapManager::_alloc(size_t i_bytes)
 				pUsed->m_pNext = m_pFreeMemHead + m_numDesc;
 				pUsedNew = pUsed->m_pNext;
 			}
+
+			// If our UsedMem list is empty
 			else
 			{
+				// Create new BlockDesc in UsedMem
 				m_pUsedMemHead = m_pFreeMemHead + m_numDesc;
 				pUsedNew = m_pUsedMemHead;
 			}
@@ -153,6 +161,7 @@ bool HeapManager::IsAllocated(void* i_ptr)
 	return false; //TODO: implement is allocated
 }
 
+// Displays the current free blocks and their relevant values
 void HeapManager::ShowFreeBlocks()
 {
 	std::cout << "----- FREE BLOCKS -----" << std::endl;
@@ -171,6 +180,7 @@ void HeapManager::ShowFreeBlocks()
 	std::cout << std::endl;
 }
 
+// Displays the current used blocks and their relevant values
 void HeapManager::ShowOutstandingAllocations()
 {
 	std::cout << "----- OUTSTANDING BLOCKS -----" << std::endl;
@@ -193,5 +203,3 @@ void HeapManager::destroy()
 {
 	return; //TODO: implement destroy
 }
-
-#endif

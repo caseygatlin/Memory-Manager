@@ -2,6 +2,8 @@
 
 #include "BlockDesc.h"
 
+
+//Manages dynamic allocation of memory given a chunk of memory
 class HeapManager
 {
 
@@ -36,6 +38,7 @@ public:
 	// a debugging helper function to show us all the outstanding blocks.
 	void ShowOutstandingAllocations();
 
+	// Destructs the heap manager
 	void destroy();
 
 private:
