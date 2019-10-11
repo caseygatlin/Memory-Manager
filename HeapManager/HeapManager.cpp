@@ -62,7 +62,7 @@ void* HeapManager::_alloc(size_t i_bytes)
 	while (pFree != nullptr)
 	{
 		// If current block is big enough, allocate memory
-		if (pFree->m_sizeBlock >= i_bytes)
+		if (pFree->m_sizeBlock >= bytesToAlloc)
 		{
 			BlockDesc* pUsed = m_pUsedMemHead;
 			BlockDesc* pUsedNew = nullptr;
@@ -90,22 +90,16 @@ void* HeapManager::_alloc(size_t i_bytes)
 			}
 
 
-			// Assign the BlockDesc base address
+			// Assign the new BlockDesc values in UsedMem
 			pUsedNew->m_pBlockBase = pFree->m_pBlockBase;
-
-			// Assign the BlockDesc size
 			pUsedNew->m_sizeBlock = bytesToAlloc;
-
-			// Assign next ptr
 			pUsedNew->m_pNext = nullptr;
 
 
-			// Assigns new block base to BlockDesc in FreeMem
+			// Adjust BlocDesc values in FreeMem accordingly
 			char* c_pFreeBlockBase = static_cast<char*>(pFree->m_pBlockBase) + bytesToAlloc;
 			void* v_pFreeBlockBase = static_cast<void*>(c_pFreeBlockBase);
 			pFree->m_pBlockBase = v_pFreeBlockBase;
-
-			// Adjusts size of BlockDesc in FreeMem
 			pFree->m_sizeBlock -= bytesToAlloc;
 
 			// Assign return pointer and adjust for guard banding
