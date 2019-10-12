@@ -127,6 +127,34 @@ void* HeapManager::_alloc(size_t i_bytes, unsigned int i_alignment)
 
 bool HeapManager::_free(void* i_ptr)
 {
+	if (!i_ptr)
+	{
+		return true;
+	}
+
+	char* c_i_ptr = static_cast<char*>(i_ptr);
+	BlockDesc* pUsed = m_pUsedMemHead;
+	while (pUsed->m_pNext != nullptr)
+	{
+		char* c_pUsedNextBase = static_cast<char*>(pUsed->m_pNext->m_pBlockBase);
+		char* c_pUsedNextBaseAdj = c_pUsedNextBase + GUARD_BANDING;
+
+		if (c_pUsedNextBaseAdj == c_i_ptr)
+		{
+			//Remove block from UsedMem
+			BlockDesc* pBlockToFree = pUsed->m_pNext;
+			pUsed->m_pNext = pBlockToFree->m_pNext;
+			pBlockToFree->m_pNext = nullptr;
+
+			BlockDesc* pFree = m_pFreeMemHead;
+			while (pFree->m_pNext != nullptr)
+			{
+				//Locate the location in FreeMem to put the block
+			}
+			//Insert it
+		}
+	}
+
 	return false; //TODO: implement free
 }
 
