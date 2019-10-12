@@ -7,43 +7,40 @@
 const size_t GUARD_BANDING = 4;
 
 
-HeapManager::HeapManager(void* i_pHeapMemory, size_t i_heapMemorySize, unsigned int i_numDescriptors)
+HeapManager::HeapManager(void* i_pHeapMemory, size_t i_heapMemorySize)
 {
-	// Record the current and max numbers of descriptors
-	m_maxNumDesc = i_numDescriptors;
-	m_numDesc = 1;
-
 	// Assign location of the FreeMemHead in the HeapManager
-	char* c_FreeMemHead = static_cast<char*>(i_pHeapMemory) + i_heapMemorySize - i_numDescriptors * sizeof(BlockDesc);
-	void* v_FreeMemHead = static_cast<void*>(c_FreeMemHead);
-	m_pFreeMemHead = static_cast<BlockDesc*>(v_FreeMemHead);
+	m_pFreeMemHead = static_cast<BlockDesc*>(i_pHeapMemory);
+
+	// Calculate start of heap memory
+	char* c_pHeapMemory = static_cast<char*>(i_pHeapMemory);
+	void* v_pHeapStart = static_cast<void*>(c_pHeapMemory + sizeof(BlockDesc));
 
 	// Assign values of first BlockDescr in FreeMem
-	m_pFreeMemHead->m_pBlockBase = i_pHeapMemory;
+	m_pFreeMemHead->m_pBlockBase = v_pHeapStart;
+	m_pFreeMemHead->m_pPrev = nullptr;
 	m_pFreeMemHead->m_pNext = nullptr;
-	m_pFreeMemHead->m_sizeBlock = i_heapMemorySize;
+	m_pFreeMemHead->m_sizeBlock = i_heapMemorySize - sizeof(BlockDesc);
+
 
 	// Define empty UsedMem
 	m_pUsedMemHead = nullptr;
 }
 
 // Inizializes new heap manager
-HeapManager* HeapManager::create(void* i_pHeapMemory, size_t i_heapMemorySize, unsigned int i_numDescriptors)
+HeapManager* HeapManager::create(void* i_pHeapMemory, size_t i_heapMemorySize, unsigned int i_numDescriptors) //TODO: Remove num descriptors
 {
 	// Defines new heap manager location in memory
 	HeapManager* pManager = static_cast<HeapManager*>(i_pHeapMemory);
 	
 	// Constructs heap manager
-	*pManager = HeapManager(i_pHeapMemory, i_heapMemorySize, i_numDescriptors);
+	*pManager = HeapManager(i_pHeapMemory, i_heapMemorySize);
 	return pManager;
 }
 
 // Allocates a given number of bytes and returns memory address
 void* HeapManager::_alloc(size_t i_bytes)
 {
-	// Make sure we don't go over our number of descriptors
-	assert(m_numDesc < m_maxNumDesc);
-
 	// Adjust to have 4-byte alignment
 	size_t bytesToAlloc = i_bytes;
 	while (bytesToAlloc % 4 != 0)
@@ -53,6 +50,7 @@ void* HeapManager::_alloc(size_t i_bytes)
 	
 	// Add guard bands
 	bytesToAlloc += GUARD_BANDING * 2;
+	bytesToAlloc += sizeof(BlockDesc);
 
 	// Initialize return value
 	void* pReturn = nullptr;
@@ -77,22 +75,24 @@ void* HeapManager::_alloc(size_t i_bytes)
 				}
 
 				// Create new BlockDesc in UsedMem
-				pUsed->m_pNext = m_pFreeMemHead + m_numDesc;
+				pUsed->m_pNext = static_cast<BlockDesc*>(pFree->m_pBlockBase);
 				pUsedNew = pUsed->m_pNext;
+				pUsedNew->m_pPrev = pUsed;
 			}
 
 			// If our UsedMem list is empty
 			else
 			{
 				// Create new BlockDesc in UsedMem
-				m_pUsedMemHead = m_pFreeMemHead + m_numDesc;
+				m_pUsedMemHead = static_cast<BlockDesc*>(pFree->m_pBlockBase);
 				pUsedNew = m_pUsedMemHead;
+				pUsedNew->m_pPrev = nullptr;
 			}
 
 
 			// Assign the new BlockDesc values in UsedMem
-			pUsedNew->m_pBlockBase = pFree->m_pBlockBase;
-			pUsedNew->m_sizeBlock = bytesToAlloc;
+			pUsedNew->m_pBlockBase = static_cast<void*>(pUsedNew + 1);
+			pUsedNew->m_sizeBlock = bytesToAlloc - sizeof(BlockDesc);
 			pUsedNew->m_pNext = nullptr;
 
 
@@ -107,7 +107,6 @@ void* HeapManager::_alloc(size_t i_bytes)
 			pReturn = static_cast<void*>(c_pReturn);
 
 			//Exit loop and return
-			m_numDesc++;
 			return pReturn;
 
 		}
@@ -127,35 +126,54 @@ void* HeapManager::_alloc(size_t i_bytes, unsigned int i_alignment)
 
 bool HeapManager::_free(void* i_ptr)
 {
+	// If attempting to free a nullptr, return true
 	if (!i_ptr)
 	{
 		return true;
 	}
 
+	
+	// Get the block descriptor of the memory to be freed
 	char* c_i_ptr = static_cast<char*>(i_ptr);
-	BlockDesc* pUsed = m_pUsedMemHead;
-	while (pUsed->m_pNext != nullptr)
+	char* c_pUsed = c_i_ptr - sizeof(BlockDesc) - GUARD_BANDING;
+	void* v_pUsed = static_cast<void*>(c_pUsed);
+	BlockDesc* pUsed = static_cast<BlockDesc*>(v_pUsed);
+
+	// Remove block from Used Mem list
+	pUsed->m_pPrev->m_pNext = pUsed->m_pNext;
+	pUsed->m_pNext->m_pPrev = pUsed->m_pPrev;
+
+	BlockDesc* pFree = m_pFreeMemHead;
+	
+	// If FreeMem list is empty, insert the used block into the head of FreeMem & return true
+	if (pFree == nullptr)
 	{
-		char* c_pUsedNextBase = static_cast<char*>(pUsed->m_pNext->m_pBlockBase);
-		char* c_pUsedNextBaseAdj = c_pUsedNextBase + GUARD_BANDING;
-
-		if (c_pUsedNextBaseAdj == c_i_ptr)
-		{
-			//Remove block from UsedMem
-			BlockDesc* pBlockToFree = pUsed->m_pNext;
-			pUsed->m_pNext = pBlockToFree->m_pNext;
-			pBlockToFree->m_pNext = nullptr;
-
-			BlockDesc* pFree = m_pFreeMemHead;
-			while (pFree->m_pNext != nullptr)
-			{
-				//Locate the location in FreeMem to put the block
-			}
-			//Insert it
-		}
+		m_pFreeMemHead = pUsed;
+		m_pFreeMemHead->m_pPrev = nullptr;
+		m_pFreeMemHead->m_pNext = nullptr;
+		return true;
 	}
 
-	return false; //TODO: implement free
+	// Otherwise iterate through until our FreeMem block base is greater than our used memory block base
+	while (pUsed->m_pBlockBase > pFree->m_pBlockBase)
+	{
+		pFree = pFree->m_pNext;
+	}
+
+	if (pFree != nullptr)
+	{
+		// Insert the used memory into FreeMem behind the block to which we iterated
+		pFree->m_pPrev->m_pNext = pUsed;
+		pUsed->m_pPrev = pFree->m_pPrev;
+		pFree->m_pPrev = pUsed;
+		pUsed->m_pNext = pFree;
+		return true;
+	}
+	
+	else
+	{
+		return false;
+	}
 }
 
 void HeapManager::collect()

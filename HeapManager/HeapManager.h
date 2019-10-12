@@ -8,7 +8,7 @@ class HeapManager
 {
 
 public:
-	HeapManager(void* i_pHeapMemory, size_t i_heapMemorySize, unsigned int i_numDescriptors);
+	HeapManager(void* i_pHeapMemory, size_t i_heapMemorySize);
 
 	static HeapManager* create(void* i_pHeapMemory, size_t i_heapMemorySize, unsigned int i_numDescriptors);
 
@@ -44,6 +44,4 @@ public:
 private:
 	BlockDesc* m_pFreeMemHead;
 	BlockDesc* m_pUsedMemHead;
-	unsigned int m_numDesc;
-	unsigned int m_maxNumDesc;
 };
