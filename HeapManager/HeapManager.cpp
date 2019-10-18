@@ -286,7 +286,20 @@ size_t HeapManager::getLargestFreeBlock()
 
 size_t HeapManager::getTotalFreeMemory()
 {
-	return 0; //TODO: implement get total free memory
+	// Define size & iterator
+	size_t		total	= 0;
+	BlockDesc*	pFree	= m_pFreeMemHead;
+
+	// Iterate and accumulate total
+	while (pFree != nullptr)
+	{
+
+		total += pFree->m_sizeBlock;
+		pFree = pFree->m_pNext;
+
+	}
+
+	return total;
 }
 
 bool HeapManager::Contains(void* i_ptr)
