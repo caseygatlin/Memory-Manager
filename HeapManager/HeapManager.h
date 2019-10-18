@@ -10,7 +10,7 @@ class HeapManager
 public:
 	HeapManager(void* i_pHeapMemory, size_t i_heapMemorySize);
 
-	static HeapManager* create(void* i_pHeapMemory, size_t i_heapMemorySize, unsigned int i_numDescriptors);
+	static HeapManager* create(void* i_pHeapMemory, size_t i_heapMemorySize);
 
 	// allocates memory. named with a underscore to resolve name clash
 	void* _alloc(size_t i_bytes);

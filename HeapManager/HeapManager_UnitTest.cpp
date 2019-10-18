@@ -26,13 +26,12 @@ bool HeapManager_UnitTest_Allocate()
 	using namespace HeapManagerProxy;
 
 	const size_t 		sizeHeap = 1024 * 1024;
-	const unsigned int 	numDescriptors = 2048;
 
 	void* pHeapMemory = HeapAlloc(GetProcessHeap(), 0, sizeHeap);
 
 	assert(pHeapMemory);
 
-	HeapManager * pHeapManager = CreateHeapManager(pHeapMemory, sizeHeap, numDescriptors);
+	HeapManager * pHeapManager = CreateHeapManager(pHeapMemory, sizeHeap);
 	assert(pHeapManager);
 
 	if (pHeapManager == nullptr)
@@ -101,7 +100,7 @@ bool HeapManager_UnitTest()
 	using namespace HeapManagerProxy;
 
 	const size_t 		sizeHeap = 1024 * 1024;
-	const unsigned int 	numDescriptors = 2048;
+	const unsigned int 	numDescriptors = 2048; //TODO: Remove numDescriptors
 
 #ifdef USE_HEAP_ALLOC
 	void* pHeapMemory = HeapAlloc(GetProcessHeap(), 0, sizeHeap);
@@ -117,7 +116,7 @@ bool HeapManager_UnitTest()
 	assert(pHeapMemory);
 
 	// Create a heap manager for my test heap.
-	HeapManager * pHeapManager = CreateHeapManager(pHeapMemory, sizeHeap, numDescriptors);
+	HeapManager * pHeapManager = CreateHeapManager(pHeapMemory, sizeHeap);
 	assert(pHeapManager);
 
 	if( pHeapManager == nullptr )

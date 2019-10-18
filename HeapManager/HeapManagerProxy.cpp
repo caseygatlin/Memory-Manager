@@ -10,9 +10,9 @@
 namespace HeapManagerProxy
 {
 
-	HeapManager * CreateHeapManager( void * i_pMemory, size_t i_sizeMemory, unsigned int i_numDescriptors )
+	HeapManager * CreateHeapManager( void * i_pMemory, size_t i_sizeMemory)
 	{
-		return HeapManager::create( i_pMemory, i_sizeMemory, i_numDescriptors );
+		return HeapManager::create( i_pMemory, i_sizeMemory);
 	}
 
 	void Destroy( HeapManager * i_pManager )

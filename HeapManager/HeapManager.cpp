@@ -28,7 +28,7 @@ HeapManager::HeapManager(void* i_pHeapMemory, size_t i_heapMemorySize)
 }
 
 // Inizializes new heap manager
-HeapManager* HeapManager::create(void* i_pHeapMemory, size_t i_heapMemorySize, unsigned int i_numDescriptors) //TODO: Remove num descriptors
+HeapManager* HeapManager::create(void* i_pHeapMemory, size_t i_heapMemorySize)
 {
 	// Defines new heap manager location in memory
 	HeapManager* pManager = static_cast<HeapManager*>(i_pHeapMemory);
