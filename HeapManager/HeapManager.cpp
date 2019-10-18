@@ -487,6 +487,7 @@ void HeapManager::ShowOutstandingAllocations()
 
 void HeapManager::destroy()
 {
+
 	// Free all outstanding memory
 	while (m_pUsedMemHead != nullptr)
 	{
@@ -501,6 +502,11 @@ void HeapManager::destroy()
 	// Collect into one block
 	collect();
 
-	// Undefine that block
-	m_pFreeMemHead = nullptr;
+	// Nullify that block
+	m_pFreeMemHead->m_pBlockBase	= nullptr;
+	m_pFreeMemHead->m_pNext			= nullptr;
+	m_pFreeMemHead->m_pPrev			= nullptr;
+	m_pFreeMemHead->m_sizeBlock		= 0;
+	m_pFreeMemHead					= nullptr;
+
 }
