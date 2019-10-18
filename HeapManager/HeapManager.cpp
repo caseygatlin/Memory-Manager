@@ -375,5 +375,20 @@ void HeapManager::ShowOutstandingAllocations()
 
 void HeapManager::destroy()
 {
-	return; //TODO: implement destroy
+	// Free all outstanding memory
+	while (m_pUsedMemHead != nullptr)
+	{
+
+		char* c_pUsedBlockBase	= static_cast<char*>	(m_pUsedMemHead->m_pBlockBase);
+		char* c_pUsedUserPtr	= c_pUsedBlockBase + GUARD_BANDING;
+		void* v_pUsedUserPtr	= static_cast<void*>	(c_pUsedUserPtr);
+
+		_free(v_pUsedUserPtr);
+	}
+
+	// Collect into one block
+	collect();
+
+	// Undefine that block
+	m_pFreeMemHead = nullptr;
 }
