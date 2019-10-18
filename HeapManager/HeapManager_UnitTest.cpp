@@ -91,6 +91,52 @@ bool HeapManager_UnitTest_Allocate()
 	ShowFreeBlocks(pHeapManager);
 	ShowOutstandingAllocations(pHeapManager);
 
+
+	/*-*-*-*-*-*-*-*-*-*-*-*-* FREEING ALLOCATIONS *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
+
+
+	// Double free
+	assert(free(pHeapManager, my_double));
+
+	// After double
+	std::cout << "********** AFTER DOUBLE FREE **********" << std::endl << std::endl;
+	ShowFreeBlocks(pHeapManager);
+	ShowOutstandingAllocations(pHeapManager);
+
+	// Int free
+	assert(free(pHeapManager, my_int));
+
+	// After int
+	std::cout << "********** AFTER INT FREE **********" << std::endl << std::endl;
+	ShowFreeBlocks(pHeapManager);
+	ShowOutstandingAllocations(pHeapManager);
+
+	// Bool free
+	assert(free(pHeapManager, my_bool));
+
+	// After bool
+	std::cout << "********** AFTER BOOL FREE **********" << std::endl << std::endl;
+	ShowFreeBlocks(pHeapManager);
+	ShowOutstandingAllocations(pHeapManager);
+
+	// Float free
+	assert(free(pHeapManager, my_float));
+
+	// After float
+	std::cout << "********** AFTER FLOAT FREE **********" << std::endl << std::endl;
+	ShowFreeBlocks(pHeapManager);
+	ShowOutstandingAllocations(pHeapManager);
+
+	// Char free
+	assert(free(pHeapManager, my_char));
+
+	// After char
+	std::cout << "********** AFTER CHAR FREE **********" << std::endl << std::endl;
+	ShowFreeBlocks(pHeapManager);
+	ShowOutstandingAllocations(pHeapManager);
+
+
+
 	return true;
 }
 
