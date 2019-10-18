@@ -262,7 +262,26 @@ void HeapManager::collect()
 
 size_t HeapManager::getLargestFreeBlock()
 {
-	return 0; //TODO: implement get largest free block
+	// Define max & iterator
+	size_t		max		= 0;
+	BlockDesc*	pFree	= m_pFreeMemHead;
+
+	// Iterate to find max
+	while (pFree != nullptr)
+	{
+
+		if (pFree->m_sizeBlock > max)
+		{
+
+			max = pFree->m_sizeBlock;
+
+		}
+
+		pFree = pFree->m_pNext;
+
+	}
+
+	return max;
 }
 
 size_t HeapManager::getTotalFreeMemory()
