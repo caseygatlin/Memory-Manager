@@ -309,7 +309,30 @@ bool HeapManager::Contains(void* i_ptr)
 
 bool HeapManager::IsAllocated(void* i_ptr)
 {
-	return false; //TODO: implement is allocated
+	// Define iterator
+	BlockDesc* pUsed = m_pUsedMemHead;
+
+	// Iterate and compare
+	while (pUsed != nullptr)
+	{
+		// Calculate iterated block user ptr
+		char*	c_pUsedBlockBase	= static_cast<char*>	(pUsed->m_pBlockBase);
+		char*	c_pUsedUserPtr		= c_pUsedBlockBase + GUARD_BANDING;
+		void*	v_pUsedUserPtr		= static_cast<void*>	(c_pUsedUserPtr);
+		
+		// Compare user ptr with given ptr
+		if (v_pUsedUserPtr == i_ptr)
+		{
+
+			return true;
+
+		}
+
+		pUsed = pUsed->m_pNext;
+
+	}
+
+	return false;
 }
 
 // Displays the current free blocks and their relevant values
