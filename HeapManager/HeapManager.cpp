@@ -11,8 +11,8 @@ const size_t GUARD_BANDING = 4;
 HeapManager::HeapManager(void* i_pHeapMemory, size_t i_heapMemorySize)
 {
 	// Calculate start of heap memory
-	uintptr_t*	ip_pHeapMemory		= static_cast<uintptr_t*>	(i_pHeapMemory);
-	void*		v_pHeapStart		= static_cast<void*>		(ip_pHeapMemory + sizeof(BlockDesc));
+	uintptr_t*	uip_pHeapMemory		= static_cast<uintptr_t*>	(i_pHeapMemory);
+	void*		v_pHeapStart		= static_cast<void*>		(uip_pHeapMemory + sizeof(BlockDesc));
 
 	// Define FreeMem
 	m_pFreeMemHead					= static_cast<BlockDesc*>(i_pHeapMemory);
@@ -47,70 +47,82 @@ HeapManager* HeapManager::create(void* i_pHeapMemory, size_t i_heapMemorySize)
 // Allocates a given number of bytes and returns memory address
 void* HeapManager::_alloc(size_t i_bytes)
 {
-	// Adjust to have 4-byte alignment
+	// Adjust to 4-byte alignment
 	size_t bytesToAlloc = i_bytes;
 	while (bytesToAlloc % 4 != 0)
 	{
 		bytesToAlloc++;
 	}
 	
+
 	// Add guard bands
-	bytesToAlloc += GUARD_BANDING * 2;
-	bytesToAlloc += sizeof(BlockDesc);
+	bytesToAlloc	+= GUARD_BANDING * 2;
+	bytesToAlloc	+= sizeof(BlockDesc);
+
 
 	// Initialize return value
-	void* pReturn = nullptr;
+	void* pReturn	= nullptr;
 
-	// Search for big enough block, create new block in UsedMem when found
+
+	// Search for big enough block,
+	// create new block in UsedMem when found
 	BlockDesc* pFree = m_pFreeMemHead;
 	while (pFree != nullptr)
 	{
+
 		// If current block is big enough, allocate memory
 		if (pFree->m_sizeBlock >= bytesToAlloc)
 		{
-			BlockDesc* pUsed = m_pUsedMemHead;
-			BlockDesc* pUsedNew = nullptr;
+			BlockDesc* pUsed		= m_pUsedMemHead;
+			BlockDesc* pUsedNew		= nullptr;
 
-			// If our UsedMem list has at least one item
+			// If UsedMem has at least one item
 			if (pUsed != nullptr)
 			{
-				//Cycle through till the item before the last item
+
+				// Iterate till 2nd to last item
 				while (pUsed->m_pNext != nullptr)
 				{
 					pUsed = pUsed->m_pNext;
 				}
 
+
 				// Create new BlockDesc in UsedMem
-				pUsed->m_pNext = static_cast<BlockDesc*>(pFree->m_pBlockBase);
-				pUsedNew = pUsed->m_pNext;
-				pUsedNew->m_pPrev = pUsed;
+				pUsed->m_pNext		= static_cast<BlockDesc*>(pFree->m_pBlockBase);
+				pUsedNew			= pUsed->m_pNext;
+				pUsedNew->m_pPrev	= pUsed;
+
 			}
 
-			// If our UsedMem list is empty
+			// If UsedMem is empty
 			else
 			{
+
 				// Create new BlockDesc in UsedMem
-				m_pUsedMemHead = static_cast<BlockDesc*>(pFree->m_pBlockBase);
-				pUsedNew = m_pUsedMemHead;
-				pUsedNew->m_pPrev = nullptr;
+				m_pUsedMemHead		= static_cast<BlockDesc*>(pFree->m_pBlockBase);
+				pUsedNew			= m_pUsedMemHead;
+				pUsedNew->m_pPrev	= nullptr;
+
 			}
 
 
-			// Assign the new BlockDesc values in UsedMem
-			pUsedNew->m_pBlockBase = static_cast<void*>(pUsedNew + 1);
-			pUsedNew->m_sizeBlock = bytesToAlloc - sizeof(BlockDesc);
-			pUsedNew->m_pNext = nullptr;
+			// Assign new BlockDesc values in UsedMem
+			pUsedNew->m_pBlockBase	= static_cast<void*>(pUsedNew + 1);
+			pUsedNew->m_sizeBlock	= bytesToAlloc - sizeof(BlockDesc);
+			pUsedNew->m_pNext		= nullptr;
 
 
 			// Adjust BlocDesc values in FreeMem accordingly
-			char* c_pFreeBlockBase = static_cast<char*>(pFree->m_pBlockBase) + bytesToAlloc;
-			void* v_pFreeBlockBase = static_cast<void*>(c_pFreeBlockBase);
-			pFree->m_pBlockBase = v_pFreeBlockBase;
-			pFree->m_sizeBlock -= bytesToAlloc;
+			uintptr_t* uip_pFreeBlockBase	= static_cast<uintptr_t*>	(pFree->m_pBlockBase) + bytesToAlloc;
+			void* v_pFreeBlockBase			= static_cast<void*>		(uip_pFreeBlockBase);
+			pFree->m_pBlockBase				= v_pFreeBlockBase;
+			pFree->m_sizeBlock				-= bytesToAlloc;
+
 
 			// Assign return pointer and adjust for guard banding
-			char* c_pReturn = static_cast<char*>(pUsedNew->m_pBlockBase) + GUARD_BANDING;
-			pReturn = static_cast<void*>(c_pReturn);
+			uintptr_t*	uip_pReturn	= static_cast<uintptr_t*>	(pUsedNew->m_pBlockBase) + GUARD_BANDING;
+			pReturn					= static_cast<void*>		(uip_pReturn);
+
 
 			//Exit loop and return
 			return pReturn;
@@ -119,10 +131,12 @@ void* HeapManager::_alloc(size_t i_bytes)
 
 		// Otherwise move to next block
 		pFree = pFree->m_pNext;
+
 	}
 
 	// If no block big enough is found, return nullptr
 	return nullptr;
+
 }
 
 void* HeapManager::_alloc(size_t i_bytes, unsigned int i_alignment)
