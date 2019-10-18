@@ -392,7 +392,31 @@ size_t HeapManager::getTotalFreeMemory()
 
 bool HeapManager::Contains(void* i_ptr)
 {
-	return false; //TODO: implement contains
+	// Define iterator for FreeMem
+	BlockDesc* pFree = m_pFreeMemHead;
+
+	// Iterate and compare
+	while (pFree != nullptr)
+	{
+		// Calculate iterated block user ptr
+		char*	c_pFreeBlockBase = static_cast<char*>	(pFree->m_pBlockBase);
+		char*	c_pFreeUserPtr = c_pFreeBlockBase + GUARD_BANDING;
+		void*	v_pFreeUserPtr = static_cast<void*>	(c_pFreeUserPtr);
+
+		// Compare user ptr with given ptr
+		if (v_pFreeUserPtr == i_ptr)
+		{
+
+			return true;
+
+		}
+
+		pFree = pFree->m_pNext;
+
+	}
+
+	// If not in FreeMem, check if it's allocated
+	return IsAllocated(i_ptr);
 }
 
 bool HeapManager::IsAllocated(void* i_ptr)
