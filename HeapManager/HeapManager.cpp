@@ -2,6 +2,7 @@
 #include "HeapManager.h"
 #include "BlockDesc.h"
 #include <iostream>
+#include <stdint.h>
 
 // 4 byte guard bands in case of writing over allocated block
 const size_t GUARD_BANDING = 4;
@@ -9,19 +10,18 @@ const size_t GUARD_BANDING = 4;
 
 HeapManager::HeapManager(void* i_pHeapMemory, size_t i_heapMemorySize)
 {
+	// Calculate start of heap memory
+	uintptr_t* ip_pHeapMemory = static_cast<uintptr_t*>(i_pHeapMemory);
+	void* v_pHeapStart = static_cast<void*>(ip_pHeapMemory + sizeof(BlockDesc));
+
 	// Assign location of the FreeMemHead in the HeapManager
 	m_pFreeMemHead = static_cast<BlockDesc*>(i_pHeapMemory);
-
-	// Calculate start of heap memory
-	char* c_pHeapMemory = static_cast<char*>(i_pHeapMemory);
-	void* v_pHeapStart = static_cast<void*>(c_pHeapMemory + sizeof(BlockDesc));
 
 	// Assign values of first BlockDescr in FreeMem
 	m_pFreeMemHead->m_pBlockBase = v_pHeapStart;
 	m_pFreeMemHead->m_pPrev = nullptr;
 	m_pFreeMemHead->m_pNext = nullptr;
 	m_pFreeMemHead->m_sizeBlock = i_heapMemorySize - sizeof(BlockDesc);
-
 
 	// Define empty UsedMem
 	m_pUsedMemHead = nullptr;
@@ -32,9 +32,14 @@ HeapManager* HeapManager::create(void* i_pHeapMemory, size_t i_heapMemorySize)
 {
 	// Defines new heap manager location in memory
 	HeapManager* pManager = static_cast<HeapManager*>(i_pHeapMemory);
-	
-	// Constructs heap manager
-	*pManager = HeapManager(i_pHeapMemory, i_heapMemorySize);
+
+	// Create space for the sizeof(HeapManager)
+	uintptr_t* ip_pHeapMemory = static_cast<uintptr_t*>(i_pHeapMemory);
+	void* v_pHeapStart = static_cast<void*>(ip_pHeapMemory + sizeof(HeapManager));
+
+	// Constructs heap manager, adjusting for sizeof(HeapManager)
+	*pManager = HeapManager(v_pHeapStart, i_heapMemorySize);
+
 	return pManager;
 }
 
