@@ -11,37 +11,38 @@ const size_t GUARD_BANDING = 4;
 HeapManager::HeapManager(void* i_pHeapMemory, size_t i_heapMemorySize)
 {
 	// Calculate start of heap memory
-	uintptr_t* ip_pHeapMemory = static_cast<uintptr_t*>(i_pHeapMemory);
-	void* v_pHeapStart = static_cast<void*>(ip_pHeapMemory + sizeof(BlockDesc));
+	uintptr_t*	ip_pHeapMemory		= static_cast<uintptr_t*>	(i_pHeapMemory);
+	void*		v_pHeapStart		= static_cast<void*>		(ip_pHeapMemory + sizeof(BlockDesc));
 
-	// Assign location of the FreeMemHead in the HeapManager
-	m_pFreeMemHead = static_cast<BlockDesc*>(i_pHeapMemory);
-
-	// Assign values of first BlockDescr in FreeMem
-	m_pFreeMemHead->m_pBlockBase = v_pHeapStart;
-	m_pFreeMemHead->m_pPrev = nullptr;
-	m_pFreeMemHead->m_pNext = nullptr;
-	m_pFreeMemHead->m_sizeBlock = i_heapMemorySize - sizeof(BlockDesc);
+	// Define FreeMem
+	m_pFreeMemHead					= static_cast<BlockDesc*>(i_pHeapMemory);
+	m_pFreeMemHead->m_pBlockBase	= v_pHeapStart;
+	m_pFreeMemHead->m_pPrev			= nullptr;
+	m_pFreeMemHead->m_pNext			= nullptr;
+	m_pFreeMemHead->m_sizeBlock		= i_heapMemorySize - sizeof(BlockDesc);
 
 	// Define empty UsedMem
-	m_pUsedMemHead = nullptr;
+	m_pUsedMemHead					= nullptr;
 }
 
-// Inizializes new heap manager
+
+
+// Inizializes new HeapManager
 HeapManager* HeapManager::create(void* i_pHeapMemory, size_t i_heapMemorySize)
 {
-	// Defines new heap manager location in memory
-	HeapManager* pManager = static_cast<HeapManager*>(i_pHeapMemory);
+	// Defines new HeapManager in memory
+	HeapManager*	pManager		= static_cast<HeapManager*>	(i_pHeapMemory);
 
-	// Create space for the sizeof(HeapManager)
-	uintptr_t* ip_pHeapMemory = static_cast<uintptr_t*>(i_pHeapMemory);
-	void* v_pHeapStart = static_cast<void*>(ip_pHeapMemory + sizeof(HeapManager));
 
-	// Constructs heap manager, adjusting for sizeof(HeapManager)
-	*pManager = HeapManager(v_pHeapStart, i_heapMemorySize);
+	// Constructs heap manager
+	uintptr_t*		ip_pHeapMemory	= static_cast<uintptr_t*>	(i_pHeapMemory);
+	void*			v_pHeapStart	= static_cast<void*>		(ip_pHeapMemory + sizeof(HeapManager));
+					*pManager		= HeapManager(v_pHeapStart, i_heapMemorySize);
 
 	return pManager;
 }
+
+
 
 // Allocates a given number of bytes and returns memory address
 void* HeapManager::_alloc(size_t i_bytes)
