@@ -207,7 +207,7 @@ bool HeapManager::_free(void* i_ptr)
 	// If FreeMem list is empty, insert the used block into the head of FreeMem & return true
 	if (pFree == nullptr)
 	{
-		m_pFreeMemHead = pUsed;
+		m_pFreeMemHead			= pUsed;
 		m_pFreeMemHead->m_pPrev = nullptr;
 		m_pFreeMemHead->m_pNext = nullptr;
 		return true;
@@ -239,10 +239,10 @@ bool HeapManager::_free(void* i_ptr)
 		else
 		{
 
-			pFree->m_pPrev->m_pNext = pUsed;
-			pUsed->m_pPrev = pFree->m_pPrev;
-			pFree->m_pPrev = pUsed;
-			pUsed->m_pNext = pFree;
+			pFree->m_pPrev->m_pNext		= pUsed;
+			pUsed->m_pPrev				= pFree->m_pPrev;
+			pFree->m_pPrev				= pUsed;
+			pUsed->m_pNext				= pFree;
 
 		}
 		
@@ -289,10 +289,10 @@ void HeapManager::ShowFreeBlocks()
 	BlockDesc* pFree = m_pFreeMemHead;
 	while (pFree != nullptr)
 	{
-		std::cout << "Block " << blockCount << ":\t" << pFree << std::endl;
-		std::cout << "\tBase:\t" << pFree->m_pBlockBase << std::endl;
-		std::cout << "\tSize:\t" << pFree->m_sizeBlock << std::endl;
-		std::cout << "\tNext:\t" << pFree->m_pNext << std::endl;
+		std::cout << "Block "		<< blockCount			<< ":\t"		<< pFree	<< std::endl;
+		std::cout << "\tBase:\t"	<< pFree->m_pBlockBase	<< std::endl;
+		std::cout << "\tSize:\t"	<< pFree->m_sizeBlock	<< std::endl;
+		std::cout << "\tNext:\t"	<< pFree->m_pNext		<< std::endl;
 		blockCount++;
 		pFree = pFree->m_pNext;
 	}
@@ -308,10 +308,10 @@ void HeapManager::ShowOutstandingAllocations()
 	BlockDesc* pUsed = m_pUsedMemHead;
 	while (pUsed != nullptr)
 	{
-		std::cout << "Block " << blockCount << ":\t" << pUsed << std::endl;
-		std::cout << "\tBase:\t" << pUsed->m_pBlockBase << std::endl;
-		std::cout << "\tSize:\t" << pUsed->m_sizeBlock << std::endl;
-		std::cout << "\tNext:\t" << pUsed->m_pNext << std::endl;
+		std::cout << "Block "		<< blockCount			<< ":\t"		<< pUsed	<< std::endl;
+		std::cout << "\tBase:\t"	<< pUsed->m_pBlockBase	<< std::endl;
+		std::cout << "\tSize:\t"	<< pUsed->m_sizeBlock	<< std::endl;
+		std::cout << "\tNext:\t"	<< pUsed->m_pNext		<< std::endl;
 		blockCount++;
 		pUsed = pUsed->m_pNext;
 	}
