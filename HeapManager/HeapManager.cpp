@@ -345,7 +345,125 @@ bool HeapManager::_free(void* i_ptr)
 
 void HeapManager::collect()
 {
-	return; //TODO: implement collect
+	// Define iterator
+	BlockDesc* pFree = m_pFreeMemHead;
+
+	while (pFree->m_pNext != nullptr)
+	{
+
+		// Calculate end of pFree and the address of the next block
+		void* v_pFree			= static_cast<void*>	(pFree);
+		char* c_pFree			= static_cast<char*>	(v_pFree);
+		char* c_pFreeEndBlock	= c_pFree + sizeof(BlockDesc) + pFree->m_sizeBlock;
+		void* v_pFreeEndBlock	= static_cast<void*>	(c_pFreeEndBlock);
+		void* v_pFreeNext		= static_cast<void*>	(pFree->m_pNext);
+
+
+		// If pFree can collect the next block
+		if (v_pFreeNext == v_pFreeEndBlock)
+		{
+
+			// Resize collecting block
+			pFree->m_sizeBlock += sizeof(BlockDesc) + pFree->m_pNext->m_sizeBlock;
+
+			// Define block to be collected
+			BlockDesc* pCollectedBlock = pFree->m_pNext;
+
+
+			// If elements after pCollectedBlock
+			if (pCollectedBlock->m_pNext != nullptr)
+			{
+
+				// Remove collected block from FreeMem
+				pCollectedBlock->m_pNext->m_pPrev	= pFree;
+				pFree->m_pNext						= pCollectedBlock->m_pNext;
+
+				// Nullify collected block
+				pCollectedBlock->m_pNext		= nullptr;
+				pCollectedBlock->m_pPrev		= nullptr;
+				pCollectedBlock->m_sizeBlock	= 0;
+				pCollectedBlock->m_pBlockBase	= nullptr;
+				pCollectedBlock					= nullptr;
+
+			}
+
+			// If no elements after pCollectedBlock
+			else
+			{
+
+				// Remove collected block from FreeMem
+				pFree->m_pNext = nullptr;
+
+				// Nullify collected block
+				pCollectedBlock->m_pNext		= nullptr;
+				pCollectedBlock->m_pPrev		= nullptr;
+				pCollectedBlock->m_sizeBlock	= 0;
+				pCollectedBlock->m_pBlockBase	= nullptr;
+				pCollectedBlock					= nullptr;
+
+			}
+		}
+
+
+		// If it can otherwise be collected by the next block
+		else if (pFree->m_pNext->m_pBlockBase == v_pFreeEndBlock)
+		{
+
+			// Define pointer variables
+			BlockDesc* pCollectedBlock	= pFree;
+			pFree						= pFree->m_pNext;
+
+			// Redefine collecting block
+			pFree->m_sizeBlock	+= sizeof(BlockDesc) + pCollectedBlock->m_sizeBlock;
+			pFree->m_pBlockBase = pCollectedBlock;
+
+
+			// If elements before pCollectedBlock
+			if (pCollectedBlock->m_pPrev != nullptr)
+			{
+
+				// Remove collected block from FreeMem
+				pCollectedBlock->m_pPrev->m_pNext	= pFree;
+				pFree->m_pPrev						= pCollectedBlock->m_pPrev;
+
+				// Nullify collected block
+				pCollectedBlock->m_pNext		= nullptr;
+				pCollectedBlock->m_pPrev		= nullptr;
+				pCollectedBlock->m_sizeBlock	= 0;
+				pCollectedBlock->m_pBlockBase	= nullptr;
+				pCollectedBlock					= nullptr;
+
+				// Iterate to previous block
+				pFree = pFree->m_pPrev;
+
+			}
+
+			// If no elements before pCollectedBlock
+			else
+			{
+
+				// Remove collected block from FreeMem
+				pFree->m_pPrev = nullptr;
+
+				// Nullify collected block
+				pCollectedBlock->m_pNext		= nullptr;
+				pCollectedBlock->m_pPrev		= nullptr;
+				pCollectedBlock->m_sizeBlock	= 0;
+				pCollectedBlock->m_pBlockBase	= nullptr;
+				pCollectedBlock					= nullptr;
+
+			}
+		}
+
+		// If no collecting can occur
+		else
+		{
+
+			// Iterate to next
+			pFree = pFree->m_pNext;
+
+		}
+	}
 }
 
 size_t HeapManager::getLargestFreeBlock()
