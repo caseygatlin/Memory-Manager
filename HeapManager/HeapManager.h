@@ -8,9 +8,13 @@ class HeapManager
 {
 
 public:
+
 	HeapManager(void* i_pHeapMemory, size_t i_heapMemorySize);
 
 	static HeapManager* create(void* i_pHeapMemory, size_t i_heapMemorySize);
+
+	static const size_t	s_MinumumToLeave = sizeof(BlockDesc) + 1;
+
 
 	// allocates memory. named with a underscore to resolve name clash
 	void*	_alloc(size_t i_bytes);
