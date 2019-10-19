@@ -375,17 +375,13 @@ bool HeapManager::_free(void* i_ptr)
 	}
 	
 	// Insert at the end, if doesn't fit inside the list
-	else if (pFree == nullptr)
+	else
 	{
 		pFreePrev->m_pNext	= pUsed;
 		pUsed->m_pPrev		= pFreePrev;
 		pUsed->m_pNext		= nullptr;
 
 		return true;
-	}
-	else
-	{
-		return false;
 	}
 }
 
