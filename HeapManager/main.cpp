@@ -7,7 +7,7 @@ int main()
 	HeapManager_UnitTest();
 	//HeapManager_UnitTest_Small();
 
-	_getch();
+	char endInput = _getch();
 
 	return 0;
 }
