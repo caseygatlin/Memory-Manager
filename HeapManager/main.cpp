@@ -4,8 +4,8 @@
 
 int main()
 {
-	//HeapManager_UnitTest();
-	HeapManager_UnitTest_Allocate();
+	HeapManager_UnitTest();
+	//HeapManager_UnitTest_Small();
 
 	_getch();
 

@@ -18,7 +18,7 @@
 #define SUPPORTS_ALIGNMENT
 #define USE_HEAP_ALLOC
 
-bool HeapManager_UnitTest_Allocate()
+bool HeapManager_UnitTest_Small()
 {
 	std::cout << "This unit test allocates memory for 5 variables of different types.\n"
 		<< "Afterwards, it prints out the resulting block descriptors.\n"

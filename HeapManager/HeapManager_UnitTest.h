@@ -1,4 +1,4 @@
 #pragma once
 
 bool HeapManager_UnitTest();
-bool HeapManager_UnitTest_Allocate();
+bool HeapManager_UnitTest_Small();
