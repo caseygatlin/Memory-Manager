@@ -12,8 +12,8 @@ const uint8_t DEFAULT_ALIGNMENT = 4;
 HeapManager::HeapManager(void* i_pHeapMemory, size_t i_heapMemorySize)
 {
 	// Calculate start of heap memory
-	uintptr_t*	uip_pHeapMemory		= static_cast<uintptr_t*>	(i_pHeapMemory);
-	void*		v_pHeapStart		= static_cast<void*>		(uip_pHeapMemory + sizeof(BlockDesc));
+	char*		uip_pHeapMemory		= static_cast<char*>	(i_pHeapMemory);
+	void*		v_pHeapStart		= static_cast<void*>	(uip_pHeapMemory + sizeof(BlockDesc));
 
 	// Define FreeMem
 	m_pFreeMemHead					= static_cast<BlockDesc*>(i_pHeapMemory);
@@ -37,7 +37,7 @@ HeapManager* HeapManager::create(void* i_pHeapMemory, size_t i_heapMemorySize)
 
 
 	// Constructs heap manager
-	uintptr_t*		ip_pHeapMemory	= static_cast<uintptr_t*>	(i_pHeapMemory);
+	char*			ip_pHeapMemory	= static_cast<char*>	(i_pHeapMemory);
 	void*			v_pHeapStart	= static_cast<void*>		(ip_pHeapMemory + sizeof(HeapManager));
 					*pManager		= HeapManager(v_pHeapStart, i_heapMemorySize);
 
