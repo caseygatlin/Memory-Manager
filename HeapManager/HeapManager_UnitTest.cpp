@@ -135,6 +135,12 @@ bool HeapManager_UnitTest_Allocate()
 	ShowFreeBlocks(pHeapManager);
 	ShowOutstandingAllocations(pHeapManager);
 
+	Collect(pHeapManager);
+
+	// After collection
+	std::cout << "********** AFTER COLLECTION **********" << std::endl << std::endl;
+	ShowFreeBlocks(pHeapManager);
+	ShowOutstandingAllocations(pHeapManager);
 
 
 	return true;
