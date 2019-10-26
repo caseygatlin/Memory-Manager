@@ -5,15 +5,15 @@
 #include <stdint.h>
 
 // 4 byte guard bands in case of writing over allocated block
-const size_t GUARD_BANDING = 4;
+const uint8_t GUARD_BANDING = 4;
 const uint8_t DEFAULT_ALIGNMENT = 4;
 
 
 HeapManager::HeapManager(void* i_pHeapMemory, size_t i_heapMemorySize)
 {
 	// Calculate start of heap memory
-	char*		uip_pHeapMemory		= static_cast<char*>	(i_pHeapMemory);
-	void*		v_pHeapStart		= static_cast<void*>	(uip_pHeapMemory + sizeof(BlockDesc));
+	uintptr_t		uip_pHeapMemory		= reinterpret_cast<uintptr_t>	(i_pHeapMemory);
+	void*			v_pHeapStart		= reinterpret_cast<void*>		(uip_pHeapMemory + sizeof(BlockDesc));
 
 	// Define FreeMem
 	m_pFreeMemHead					= static_cast<BlockDesc*>(i_pHeapMemory);
@@ -37,8 +37,8 @@ HeapManager* HeapManager::create(void* i_pHeapMemory, size_t i_heapMemorySize)
 
 
 	// Constructs heap manager
-	char*			ip_pHeapMemory	= static_cast<char*>	(i_pHeapMemory);
-	void*			v_pHeapStart	= static_cast<void*>		(ip_pHeapMemory + sizeof(HeapManager));
+	uintptr_t		uip_pHeapMemory	= reinterpret_cast<uintptr_t>	(i_pHeapMemory);
+	void*			v_pHeapStart	= reinterpret_cast<void*>		(uip_pHeapMemory + sizeof(HeapManager));
 					*pManager		= HeapManager(v_pHeapStart, i_heapMemorySize);
 
 	return pManager;
@@ -65,13 +65,13 @@ void* HeapManager::_alloc(size_t i_bytes)
 	while (pFree != nullptr)
 	{
 		// Calculate alignment padding
-		char*		c_pFreeBlockBase		= static_cast<char*>			(pFree->m_pBlockBase);
-		char*		c_pFreeEnd				= c_pFreeBlockBase + pFree->m_sizeBlock;
-		char*		c_pPotentialUsedStart	= c_pFreeEnd - bytesToAlloc;
-		char*		c_pPotentialUsedUserPtr = c_pPotentialUsedStart + sizeof(BlockDesc) + GUARD_BANDING;
+		uintptr_t	uip_pFreeBlockBase			= reinterpret_cast<uintptr_t>			(pFree->m_pBlockBase);
+		uintptr_t	uip_pFreeEnd				= uip_pFreeBlockBase + pFree->m_sizeBlock;
+		uintptr_t	uip_pPotentialUsedStart		= uip_pFreeEnd - bytesToAlloc;
+		uintptr_t	uip_pPotentialUsedUserPtr	= uip_pPotentialUsedStart + sizeof(BlockDesc) + GUARD_BANDING;
 
-		uintptr_t	uip_userPtr				= reinterpret_cast<uintptr_t>	(c_pPotentialUsedUserPtr);
-		int			padding = 0;
+		uintptr_t	uip_userPtr					= uip_pPotentialUsedUserPtr;
+		size_t		padding = 0;
 
 
 		while (uip_userPtr % DEFAULT_ALIGNMENT != 0)
@@ -94,8 +94,8 @@ void* HeapManager::_alloc(size_t i_bytes)
 			BlockDesc* pUsedNew = nullptr;
 
 			// Calculate starting position of block
-			char* c_pUsedStart	= c_pFreeEnd - bytesToAlloc;
-			void* v_pUsedStart	= static_cast<void*>(c_pUsedStart);
+			uintptr_t	uip_pUsedStart	= uip_pFreeEnd - bytesToAlloc;
+			void*		v_pUsedStart	= reinterpret_cast<void*>(uip_pUsedStart);
 
 			// If UsedMem has at least one item
 			if (pUsed != nullptr)
@@ -139,9 +139,9 @@ void* HeapManager::_alloc(size_t i_bytes)
 
 
 			// Assign return pointer
-			char*	c_pReturn	= static_cast<char*>	(pUsedNew->m_pBlockBase);
-					c_pReturn	+= GUARD_BANDING;
-					pReturn		= static_cast<void*>	(c_pReturn);
+			uintptr_t	uip_pReturn	= reinterpret_cast<uintptr_t>	(pUsedNew->m_pBlockBase);
+						uip_pReturn	+= GUARD_BANDING;
+						pReturn		= reinterpret_cast<void*>		(uip_pReturn);
 
 			//Exit loop and return
 			return pReturn;
@@ -175,13 +175,13 @@ void* HeapManager::_alloc(size_t i_bytes, unsigned int i_alignment)
 	while (pFree != nullptr)
 	{
 		// Calculate alignment padding
-		char*		c_pFreeBlockBase		= static_cast<char*>			(pFree->m_pBlockBase);
-		char*		c_pFreeEnd				= c_pFreeBlockBase + pFree->m_sizeBlock;
-		char*		c_pPotentialUsedStart	= c_pFreeEnd - bytesToAlloc;
-		char*		c_pPotentialUsedUserPtr	= c_pPotentialUsedStart + sizeof(BlockDesc) + GUARD_BANDING;
+		uintptr_t		uip_pFreeBlockBase			= reinterpret_cast<uintptr_t>(pFree->m_pBlockBase);
+		uintptr_t		uip_pFreeEnd				= uip_pFreeBlockBase + pFree->m_sizeBlock;
+		uintptr_t		uip_pPotentialUsedStart		= uip_pFreeEnd - bytesToAlloc;
+		uintptr_t		uip_pPotentialUsedUserPtr	= uip_pPotentialUsedStart + sizeof(BlockDesc) + GUARD_BANDING;
 		
-		uintptr_t	uip_userPtr				= reinterpret_cast<uintptr_t>	(c_pPotentialUsedUserPtr);
-		int			padding					= 0;
+		uintptr_t	uip_userPtr				= uip_pPotentialUsedUserPtr;
+		size_t		padding					= 0;
 
 
 		while (uip_userPtr % i_alignment != 0)
@@ -202,8 +202,8 @@ void* HeapManager::_alloc(size_t i_bytes, unsigned int i_alignment)
 			BlockDesc* pUsedNew = nullptr;
 
 			// Calculate starting position of block
-			char* c_pUsedStart	= c_pFreeEnd - bytesToAlloc;
-			void* v_pUsedStart	= static_cast<void*>(c_pUsedStart);
+			uintptr_t	uip_pUsedStart	= uip_pFreeEnd - bytesToAlloc;
+			void*		v_pUsedStart	= reinterpret_cast<void*>(uip_pUsedStart);
 
 			// If UsedMem has at least one item
 			if (pUsed != nullptr)
@@ -247,9 +247,9 @@ void* HeapManager::_alloc(size_t i_bytes, unsigned int i_alignment)
 
 
 			// Assign return pointer
-			char*	c_pReturn	= static_cast<char*>	(pUsedNew->m_pBlockBase);
-					c_pReturn	+= GUARD_BANDING;
-					pReturn		= static_cast<void*>	(c_pReturn);
+			uintptr_t	uip_pReturn	= reinterpret_cast<uintptr_t>	(pUsedNew->m_pBlockBase);
+					    uip_pReturn	+= GUARD_BANDING;
+						pReturn		= reinterpret_cast<void*>		(uip_pReturn);
 
 			//Exit loop and return
 			return pReturn;
@@ -276,11 +276,11 @@ bool HeapManager::_free(void* i_ptr)
 
 	
 	// Get the block descriptor of the memory to be freed
-	char*		c_i_ptr				= static_cast<char*>		(i_ptr);
-	char*		c_pUsedBlockBase	= c_i_ptr - GUARD_BANDING;
-	char*		c_pUsed				= c_pUsedBlockBase - sizeof(BlockDesc);
-	void*		v_pUsed				= static_cast<void*>		(c_pUsed);
-	BlockDesc*	pUsed				= static_cast<BlockDesc*>	(v_pUsed);
+	uintptr_t	uip_i_ptr			= reinterpret_cast<uintptr_t>	(i_ptr);
+	uintptr_t	uip_pUsedBlockBase	= uip_i_ptr - GUARD_BANDING;
+	uintptr_t	uip_pUsed			= uip_pUsedBlockBase - sizeof(BlockDesc);
+	void*		v_pUsed				= reinterpret_cast<void*>		(uip_pUsed);
+	BlockDesc*	pUsed				= static_cast<BlockDesc*>		(v_pUsed);
 
 
 	// Remove block from Used Mem list
@@ -394,10 +394,10 @@ void HeapManager::collect()
 	{
 
 		// Calculate end of pFree and the address of the next block
-		char* c_pFreeBlockBase	= static_cast<char*>	(pFree->m_pBlockBase);
-		char* c_pFreeEndBlock	= c_pFreeBlockBase + pFree->m_sizeBlock;
-		void* v_pFreeEndBlock	= static_cast<void*>	(c_pFreeEndBlock);
-		void* v_pFreeNext		= static_cast<void*>	(pFree->m_pNext);
+		uintptr_t	uip_pFreeBlockBase	= reinterpret_cast<uintptr_t>	(pFree->m_pBlockBase);
+		uintptr_t	uip_pFreeEndBlock	= uip_pFreeBlockBase + pFree->m_sizeBlock;
+		void*		v_pFreeEndBlock		= reinterpret_cast<void*>	(uip_pFreeEndBlock);
+		void*		v_pFreeNext			= static_cast<void*>	(pFree->m_pNext);
 
 
 		// If pFree can collect the next block
@@ -508,9 +508,9 @@ bool HeapManager::Contains(void* i_ptr)
 	while (pFree != nullptr)
 	{
 		// Calculate iterated block user ptr
-		char*	c_pFreeBlockBase	= static_cast<char*>	(pFree->m_pBlockBase);
-		char*	c_pFreeUserPtr		= c_pFreeBlockBase + GUARD_BANDING;
-		void*	v_pFreeUserPtr		= static_cast<void*>	(c_pFreeUserPtr);
+		uintptr_t	uip_pFreeBlockBase	= reinterpret_cast<uintptr_t>	(pFree->m_pBlockBase);
+		uintptr_t	uip_pFreeUserPtr	= uip_pFreeBlockBase + GUARD_BANDING;
+		void*		v_pFreeUserPtr		= reinterpret_cast<void*>		(uip_pFreeUserPtr);
 
 		// Compare user ptr with given ptr
 		if (v_pFreeUserPtr == i_ptr)
@@ -537,9 +537,9 @@ bool HeapManager::IsAllocated(void* i_ptr)
 	while (pUsed != nullptr)
 	{
 		// Calculate iterated block user ptr
-		char*	c_pUsedBlockBase	= static_cast<char*>	(pUsed->m_pBlockBase);
-		char*	c_pUsedUserPtr		= c_pUsedBlockBase + GUARD_BANDING;
-		void*	v_pUsedUserPtr		= static_cast<void*>	(c_pUsedUserPtr);
+		uintptr_t	uip_pUsedBlockBase	= reinterpret_cast<uintptr_t>	(pUsed->m_pBlockBase);
+		uintptr_t	uip_pUsedUserPtr	= uip_pUsedBlockBase + GUARD_BANDING;
+		void*		v_pUsedUserPtr		= reinterpret_cast<void*>		(uip_pUsedUserPtr);
 		
 		// Compare user ptr with given ptr
 		if (v_pUsedUserPtr == i_ptr)
@@ -561,7 +561,7 @@ void HeapManager::ShowFreeBlocks()
 {
 	std::cout << "----- FREE BLOCKS -----" << std::endl;
 
-	int blockCount = 1;
+	size_t blockCount = 1;
 	BlockDesc* pFree = m_pFreeMemHead;
 	while (pFree != nullptr)
 	{
@@ -580,7 +580,7 @@ void HeapManager::ShowOutstandingAllocations()
 {
 	std::cout << "----- OUTSTANDING BLOCKS -----" << std::endl;
 
-	int blockCount = 1;
+	size_t blockCount = 1;
 	BlockDesc* pUsed = m_pUsedMemHead;
 	while (pUsed != nullptr)
 	{
@@ -601,9 +601,9 @@ void HeapManager::destroy()
 	while (m_pUsedMemHead != nullptr)
 	{
 
-		char* c_pUsedBlockBase	= static_cast<char*>	(m_pUsedMemHead->m_pBlockBase);
-		char* c_pUsedUserPtr	= c_pUsedBlockBase + GUARD_BANDING;
-		void* v_pUsedUserPtr	= static_cast<void*>	(c_pUsedUserPtr);
+		uintptr_t	uip_pUsedBlockBase	= reinterpret_cast<uintptr_t>	(m_pUsedMemHead->m_pBlockBase);
+		uintptr_t	uip_pUsedUserPtr	= uip_pUsedBlockBase + GUARD_BANDING;
+		void*		v_pUsedUserPtr		= reinterpret_cast<void*>		(uip_pUsedUserPtr);
 
 		_free(v_pUsedUserPtr);
 	}
