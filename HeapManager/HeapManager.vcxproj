@@ -20,13 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="HeapManager.cpp" />
-    <ClCompile Include="HeapManagerProxy.cpp" />
     <ClCompile Include="HeapManager_UnitTest.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlockDesc.h" />
     <ClInclude Include="HeapManager.h" />
+    <ClInclude Include="HeapManagerProxy-inl.h" />
     <ClInclude Include="HeapManagerProxy.h" />
     <ClInclude Include="HeapManager_UnitTest.h" />
   </ItemGroup>

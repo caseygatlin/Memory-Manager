@@ -21,9 +21,6 @@
     <ClCompile Include="HeapManager_UnitTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="HeapManagerProxy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -39,6 +36,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="BlockDesc.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HeapManagerProxy-inl.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
