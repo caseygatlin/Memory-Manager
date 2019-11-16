@@ -19,9 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Allocators.cpp" />
     <ClCompile Include="HeapManager.cpp" />
     <ClCompile Include="HeapManager_UnitTest.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NewDelete_UnitTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BlockDesc.h" />
@@ -29,6 +31,7 @@
     <ClInclude Include="HeapManagerProxy-inl.h" />
     <ClInclude Include="HeapManagerProxy.h" />
     <ClInclude Include="HeapManager_UnitTest.h" />
+    <ClInclude Include="Allocators.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
