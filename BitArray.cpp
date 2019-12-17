@@ -24,3 +24,7 @@ BitArray::BitArray(const size_t& i_size, void* i_memLocation)
 #endif
 
 }
+BitArray::~BitArray()
+{
+	delete[] m_pBits;
+}
