@@ -24,7 +24,23 @@ BitArray::BitArray(const size_t& i_size, void* i_memLocation)
 #endif
 
 }
+
+BitArray::BitArray(const BitArray& i_src)
+{
+
+}
+
+BitArray& BitArray::operator=(const BitArray& i_src)
+{
+
+}
+
 BitArray::~BitArray()
 {
 	delete[] m_pBits;
+}
+
+bool BitArray::FindFirstSetBit(size_t& o_bitIndex)
+{
+
 }
