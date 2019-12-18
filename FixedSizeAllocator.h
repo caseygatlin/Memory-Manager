@@ -7,7 +7,8 @@ class FixedSizeAllocator
 public:
 	FixedSizeAllocator(const void* i_pHeapMemory, const size_t& i_heapMemorySize);
 
-	static FixedSizeAllocator* Create(const void* i_pHeapMemory, const size_t& i_heapMemorySize);
+	static FixedSizeAllocator* Create(const void* i_pHeapMemory, const size_t& i_heapMemorySize, const size_t& i_numBlocks);
+
 	~FixedSizeAllocator();
 
 	void* _alloc();

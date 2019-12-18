@@ -7,7 +7,7 @@ FixedSizeAllocator::FixedSizeAllocator(const void* i_pHeapMemory, const size_t& 
 
 }
 
-FixedSizeAllocator* FixedSizeAllocator::Create(const void* i_pHeapMemory, const size_t& i_heapMemorySize)
+FixedSizeAllocator* FixedSizeAllocator::Create(const void* i_pHeapMemory, const size_t& i_heapMemorySize, const size_t& i_numBlocks)
 {
 	return nullptr;
 }
