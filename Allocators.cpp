@@ -1,14 +1,30 @@
 #include <inttypes.h>
 #include <malloc.h>
+#include "FixedSizeAllocator.h"
+#include "MemorySystem.h"
+#include "HeapManagerProxy.h"
 
 #include <stdio.h>
 
 
 void * __cdecl malloc(size_t i_size)
 {
-	// replace with calls to your HeapManager or FixedSizeAllocators
+	void* pReturn = nullptr;
+
+	FixedSizeAllocator* pFixedSizeAllocator = MemorySystemProxy::FindFixedSizeAllocator(i_size);
+
+	if (pFixedSizeAllocator)
+	{
+		pReturn = pFixedSizeAllocator->_alloc();
+	}
+
+	if (pReturn == nullptr)
+	{
+		pReturn = HeapManagerProxy::alloc(MemorySystemProxy::S_DEFAULT_HEAP_MANAGER, i_size);
+	}
+
 	printf("malloc %zu\n", i_size);
-	return _aligned_malloc(i_size, 4);
+	return pReturn;
 }
 
 void __cdecl free(void * i_ptr)
