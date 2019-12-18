@@ -62,5 +62,8 @@
     <ClInclude Include="HeapManagerProxy-inl.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="FSAInitData.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

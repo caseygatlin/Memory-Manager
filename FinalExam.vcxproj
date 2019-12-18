@@ -155,6 +155,7 @@
     <ClInclude Include="BitArray.h" />
     <ClInclude Include="BlockDesc.h" />
     <ClInclude Include="FixedSizeAllocator.h" />
+    <ClInclude Include="FSAInitData.h" />
     <ClInclude Include="HeapManager.h" />
     <ClInclude Include="HeapManagerProxy-inl.h" />
     <ClInclude Include="HeapManagerProxy.h" />
