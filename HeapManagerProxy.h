@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 class HeapManager;
+class FixedSizeAllocator;
 
 namespace HeapManagerProxy
 {
@@ -11,7 +12,7 @@ namespace HeapManagerProxy
 	inline void				Destroy( HeapManager * i_pManager );
 
 	inline void *			alloc( HeapManager * i_pManager, const size_t& i_size );
-	inline void *			alloc( HeapManager * i_pManager, const size_t& i_size, const unsigned int& i_alignment );
+	inline FixedSizeAllocator* GetFixedAllocator(const size_t& i_sizeBlock, HeapManager* i_pHeapManager);
 	inline bool				free( HeapManager * i_pManager, void * i_ptr );
 
 	inline void				Collect( HeapManager * i_pManager );

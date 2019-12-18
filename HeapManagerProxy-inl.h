@@ -6,6 +6,7 @@
 #include <stdio.h>
 
 #include "HeapManager.h"
+#include "FixedSizeAllocator.h"
 
 namespace HeapManagerProxy
 {
@@ -20,6 +21,12 @@ namespace HeapManagerProxy
 		assert(i_pManager);
 
 		i_pManager->destroy();
+	}
+
+	inline FixedSizeAllocator* GetFixedAllocator(const size_t& i_sizeBlock, HeapManager* i_pHeapManager)
+	{
+		assert(i_pHeapManager);
+		return i_pHeapManager->getFixedAllocator(i_sizeBlock);
 	}
 
 	inline void * alloc(HeapManager * i_pManager, const size_t& i_size)
@@ -48,7 +55,6 @@ namespace HeapManagerProxy
 
 		i_pManager->collect();
 	}
-
 
 	inline bool Contains(const HeapManager * i_pManager, const void * i_ptr)
 	{

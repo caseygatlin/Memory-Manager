@@ -1,6 +1,7 @@
 #include <assert.h>
 #include "HeapManager.h"
 #include "BlockDesc.h"
+#include "FixedSizeAllocator.h"
 #include <iostream>
 #include <stdint.h>
 
@@ -44,6 +45,19 @@ HeapManager* HeapManager::create(const void* i_pHeapMemory, const size_t& i_heap
 	return pManager;
 }
 
+
+FixedSizeAllocator* HeapManager::getFixedAllocator(const size_t& i_sizeBlock) const
+{
+	for (size_t i = 0; i < m_NumFSAs; i++)
+	{
+		if (m_pFSAs[i]->GetBlockSize() == i_sizeBlock)
+		{
+			return m_pFSAs[i];
+		}
+	}
+
+	return nullptr;
+}
 
 
 // Allocates a given number of bytes and returns memory address

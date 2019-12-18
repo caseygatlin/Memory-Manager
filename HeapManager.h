@@ -2,6 +2,7 @@
 
 #include "BlockDesc.h"
 
+class FixedSizeAllocator;
 
 //Manages dynamic allocation of memory given a chunk of memory
 class HeapManager
@@ -14,6 +15,9 @@ public:
 	static HeapManager* create(const void* i_pHeapMemory, const size_t& i_heapMemorySize);
 
 	static const size_t	s_MinumumToLeave = sizeof(BlockDesc) + 1;
+
+
+	FixedSizeAllocator* getFixedAllocator(const size_t& i_sizeBlock) const;
 
 
 	// allocates memory. named with a underscore to resolve name clash
@@ -48,4 +52,6 @@ public:
 private:
 	BlockDesc* m_pFreeMemHead;
 	BlockDesc* m_pUsedMemHead;
+	FixedSizeAllocator** m_pFSAs;
+	size_t m_NumFSAs;
 };
