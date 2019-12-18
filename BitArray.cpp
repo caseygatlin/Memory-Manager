@@ -32,12 +32,12 @@ BitArray::BitArray(const BitArray& i_src)
 
 BitArray& BitArray::operator=(const BitArray& i_src)
 {
-
+	return (*this);
 }
 
 BitArray::~BitArray()
 {
-	delete[] m_pBits;
+	//delete[] m_pBits;
 }
 
 bool BitArray::FindFirstSetBit(size_t& o_bitIndex) const
