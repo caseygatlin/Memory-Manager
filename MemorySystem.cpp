@@ -8,6 +8,12 @@ struct FixedSizeAllocatorInitData
 
 bool InitializeMemorySystem(void * i_pHeapMemory, size_t i_sizeHeapMemory, unsigned int i_OptionalNumDescriptors)
 {
+	//pDefaultHeap = CreateDefaultHeap();
+	//assert(pDefaultMap);
+
+	//for (unsigned int i = 0; i < numFSAs; i++)
+	//{ CreateFixedSizeAllocator(FSASizes[i].sizeBlock, FSASizes[i].numBlocks, pDefaultHeap);}
+
 	// create your HeapManager and FixedSizeAllocators
 	return true;
 }
