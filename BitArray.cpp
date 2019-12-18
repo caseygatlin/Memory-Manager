@@ -40,7 +40,7 @@ BitArray::~BitArray()
 	delete[] m_pBits;
 }
 
-bool BitArray::FindFirstSetBit(size_t& o_bitIndex)
+bool BitArray::FindFirstSetBit(size_t& o_bitIndex) const
 {
-
+	return true;
 }
