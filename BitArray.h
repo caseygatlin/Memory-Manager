@@ -2,11 +2,13 @@
 
 class uint32_t;
 class uint64_t;
+class FixedSizeAllocator;
 
 class BitArray
 {
 
 public:
+	static BitArray * Create(const size_t& i_size, FixedSizeAllocator* i_pAllocator);
 
 	// Constructor
 	BitArray(const size_t& i_size, void* i_memLocation);
