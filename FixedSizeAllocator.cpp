@@ -1,4 +1,5 @@
 #include "FixedSizeAllocator.h"
+#include "BitArray.h"
 
 FixedSizeAllocator::FixedSizeAllocator(const void* i_pHeapMemory, const size_t& i_heapMemorySize)
 {
@@ -8,6 +9,17 @@ FixedSizeAllocator::FixedSizeAllocator(const void* i_pHeapMemory, const size_t& 
 FixedSizeAllocator* FixedSizeAllocator::Create(const void* i_pHeapMemory, const size_t& i_heapMemorySize)
 {
 	return nullptr;
+}
+
+FixedSizeAllocator::~FixedSizeAllocator()
+{
+	size_t firstClear;
+
+	if (m_pFreeBits->FindFirstClearBit(firstClear))
+	{
+		// Outstanding allocation
+	}
+
 }
 
 
