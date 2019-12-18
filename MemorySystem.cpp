@@ -1,5 +1,11 @@
 #include "MemorySystem.h"
 
+struct FixedSizeAllocatorInitData
+{
+	size_t sizeBlock;
+	size_t numBlocks;
+};
+
 bool InitializeMemorySystem(void * i_pHeapMemory, size_t i_sizeHeapMemory, unsigned int i_OptionalNumDescriptors)
 {
 	// create your HeapManager and FixedSizeAllocators
