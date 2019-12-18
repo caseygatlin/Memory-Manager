@@ -16,6 +16,8 @@ bool MemorySystem_UnitTest();
 
 int main(int i_arg, char **)
 {
+	using namespace MemorySystemProxy;
+
 	const size_t 		sizeHeap = 1024 * 1024;
 
 	// you may not need this if you don't use a descriptor pool
@@ -26,7 +28,7 @@ int main(int i_arg, char **)
 	assert(pHeapMemory);
 
 	// Create your HeapManager and FixedSizeAllocators.
-	InitializeMemorySystem(pHeapMemory, sizeHeap, numDescriptors);
+	InitializeMemorySystem(pHeapMemory, sizeHeap);
 
 	bool success = MemorySystem_UnitTest();
 	assert(success);
@@ -46,6 +48,7 @@ int main(int i_arg, char **)
 
 bool MemorySystem_UnitTest()
 {
+	using namespace MemorySystemProxy;
 	const size_t maxAllocations = 10 * 1024;
 	std::vector<void *> AllocatedAddresses;
 
