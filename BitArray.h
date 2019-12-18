@@ -1,7 +1,7 @@
 #pragma once
 
-class uint32_t;
-class uint64_t;
+#include <stdint.h>
+
 class FixedSizeAllocator;
 
 class BitArray
