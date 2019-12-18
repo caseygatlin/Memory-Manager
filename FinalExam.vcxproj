@@ -146,12 +146,19 @@
     <ClCompile Include="Allocators.cpp" />
     <ClCompile Include="BitArray.cpp" />
     <ClCompile Include="FixedSizeAllocator.cpp" />
+    <ClCompile Include="HeapManager.cpp" />
+    <ClCompile Include="HeapManager_UnitTest.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MemorySystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BitArray.h" />
+    <ClInclude Include="BlockDesc.h" />
     <ClInclude Include="FixedSizeAllocator.h" />
+    <ClInclude Include="HeapManager.h" />
+    <ClInclude Include="HeapManagerProxy-inl.h" />
+    <ClInclude Include="HeapManagerProxy.h" />
+    <ClInclude Include="HeapManager_UnitTest.h" />
     <ClInclude Include="MemorySystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

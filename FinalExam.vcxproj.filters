@@ -30,6 +30,12 @@
     <ClCompile Include="FixedSizeAllocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="HeapManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HeapManager_UnitTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MemorySystem.h">
@@ -39,6 +45,21 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="FixedSizeAllocator.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BlockDesc.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HeapManager.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HeapManager_UnitTest.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HeapManagerProxy.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HeapManagerProxy-inl.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
