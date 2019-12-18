@@ -27,12 +27,18 @@
     <ClCompile Include="BitArray.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="FixedSizeAllocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MemorySystem.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="BitArray.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FixedSizeAllocator.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
