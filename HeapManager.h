@@ -17,6 +17,8 @@ public:
 	static const size_t	s_MinumumToLeave = sizeof(BlockDesc) + 1;
 
 
+	void createFixedSizeAllocator(const size_t& i_sizeBlock, const size_t& i_numBlocks); //TODO: Implementation
+	
 	FixedSizeAllocator* getFixedAllocator(const size_t& i_sizeBlock) const;
 
 

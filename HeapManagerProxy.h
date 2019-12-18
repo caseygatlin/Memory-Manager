@@ -11,7 +11,7 @@ namespace HeapManagerProxy
 	inline HeapManager *	CreateHeapManager( const void * i_pMemory, const size_t& i_sizeMemory);
 	inline void				Destroy( HeapManager * i_pManager );
 
-	inline void *			alloc( HeapManager * i_pManager, const size_t& i_size );
+	inline void				   CreateFixedSizeAllocator( const size_t& i_sizeBlock, const size_t& i_numBlocks, HeapManager* i_pManager );
 	inline FixedSizeAllocator* GetFixedAllocator(const size_t& i_sizeBlock, HeapManager* i_pHeapManager);
 	inline bool				free( HeapManager * i_pManager, void * i_ptr );
 

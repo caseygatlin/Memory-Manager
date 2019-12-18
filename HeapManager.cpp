@@ -46,6 +46,30 @@ HeapManager* HeapManager::create(const void* i_pHeapMemory, const size_t& i_heap
 }
 
 
+void HeapManager::createFixedSizeAllocator(const size_t& i_sizeBlock, const size_t& i_numBlocks)
+{
+	size_t oldArraySize = m_NumFSAs;
+
+	FixedSizeAllocator** pFSAsTemp = static_cast<FixedSizeAllocator**>(_alloc(sizeof(FixedSizeAllocator*) * oldArraySize + sizeof(FixedSizeAllocator*)));
+
+	for (size_t i = 0; i < oldArraySize; i++)
+	{
+		pFSAsTemp[i] = m_pFSAs[i];
+	}
+
+	size_t FSAMemorySize = sizeof(FixedSizeAllocator) + i_sizeBlock * i_numBlocks;
+	uintptr_t FSAMemoryLocation = reinterpret_cast<uintptr_t>(pFSAsTemp) + sizeof(FixedSizeAllocator*) * oldArraySize;
+	void* pFSAMemoryLocation = reinterpret_cast<void*> (FSAMemoryLocation);
+
+	pFSAsTemp[oldArraySize] = FixedSizeAllocator::Create(pFSAMemoryLocation, FSAMemorySize, i_numBlocks);
+
+	void* oldArrayMemoryLocation = reinterpret_cast<void*>(m_pFSAs);
+	_free(oldArrayMemoryLocation);
+
+	m_pFSAs = pFSAsTemp;
+	m_NumFSAs++;
+}
+
 FixedSizeAllocator* HeapManager::getFixedAllocator(const size_t& i_sizeBlock) const
 {
 	for (size_t i = 0; i < m_NumFSAs; i++)

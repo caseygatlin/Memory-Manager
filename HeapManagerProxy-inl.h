@@ -23,6 +23,12 @@ namespace HeapManagerProxy
 		i_pManager->destroy();
 	}
 
+	inline void CreateFixedSizeAllocator(const size_t& i_sizeBlock, const size_t& i_numBlocks, HeapManager* i_pManager)
+	{
+		assert(i_pManager);
+		i_pManager->createFixedSizeAllocator(i_sizeBlock, i_numBlocks);
+	}
+
 	inline FixedSizeAllocator* GetFixedAllocator(const size_t& i_sizeBlock, HeapManager* i_pHeapManager)
 	{
 		assert(i_pHeapManager);
