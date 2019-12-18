@@ -1,10 +1,17 @@
 #include "MemorySystem.h"
+#include "FixedSizeAllocator.h"
+#include "HeapManagerProxy.h"
 
-struct FixedSizeAllocatorInitData
+
+namespace MemorySystemProxy
 {
-	size_t sizeBlock;
-	size_t numBlocks;
-};
+	
+
+
+	FixedSizeAllocator* FindFixedSizeAllocator(const size_t& i_sizeBlock)
+	{
+		return HeapManagerProxy::GetFixedAllocator(i_sizeBlock, S_DEFAULT_HEAP_MANAGER);
+	}
 
 bool InitializeMemorySystem(void * i_pHeapMemory, size_t i_sizeHeapMemory, unsigned int i_OptionalNumDescriptors)
 {
@@ -29,3 +36,5 @@ void DestroyMemorySystem()
 	// Destroy your HeapManager and FixedSizeAllocators
 }
 
+
+}
