@@ -12,8 +12,9 @@ namespace MemorySystemProxy
 
 	FixedSizeAllocator* FindFixedSizeAllocator(const size_t& i_sizeBlock);
 
-// Collect - coalesce free blocks in attempt to create larger blocks
-void Collect();
+	// Collect - coalesce free blocks in attempt to create larger blocks
+	void Collect();
 
-// DestroyMemorySystem - destroy your memory systems
-void DestroyMemorySystem();
+	// DestroyMemorySystem - destroy your memory systems
+	void DestroyMemorySystem();
+}

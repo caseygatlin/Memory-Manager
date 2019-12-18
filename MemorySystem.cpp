@@ -46,16 +46,16 @@ namespace MemorySystemProxy
 		return true;
 	}
 
-void Collect()
-{
-	// coalesce free blocks
-	// you may or may not need to do this depending on how you've implemented your HeapManager
-}
+	void Collect()
+	{
+		// coalesce free blocks
+		// you may or may not need to do this depending on how you've implemented your HeapManager
+	}
 
-void DestroyMemorySystem()
-{
-	// Destroy your HeapManager and FixedSizeAllocators
-}
+	void DestroyMemorySystem()
+	{
+		HeapManagerProxy::Destroy(S_DEFAULT_HEAP_MANAGER);
+	}
 
 
 }
