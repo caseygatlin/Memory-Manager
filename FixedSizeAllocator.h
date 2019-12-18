@@ -13,6 +13,8 @@ public:
 
 	void* _alloc();
 	bool _free(void* i_ptr);
+
+	size_t GetBlockSize() const;
 	
 
 private:
