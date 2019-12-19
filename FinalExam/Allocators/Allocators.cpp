@@ -1,17 +1,18 @@
+#include "FixedSizeAllocator.h"
+#include "DynamicMemory.h"
+#include "HeapManager.h"
+
 #include <inttypes.h>
 #include <malloc.h>
-#include "FixedSizeAllocator.h"
-#include "MemorySystem.h"
-#include "HeapManagerProxy.h"
-
 #include <stdio.h>
 
+using namespace memory_system::dynamic_memory;
 
 void * __cdecl malloc(size_t i_size)
 {
 	void* pReturn = nullptr;
 
-	FixedSizeAllocator* pFixedSizeAllocator = MemorySystemProxy::FindFixedSizeAllocator(i_size);
+	FixedSizeAllocator* pFixedSizeAllocator = FindFixedSizeAllocator(i_size);
 
 	if (pFixedSizeAllocator)
 	{
@@ -20,7 +21,7 @@ void * __cdecl malloc(size_t i_size)
 
 	if (pReturn == nullptr)
 	{
-		pReturn = HeapManagerProxy::alloc(MemorySystemProxy::S_DEFAULT_HEAP_MANAGER, i_size);
+		pReturn = S_DEFAULT_HEAP_MANAGER->_alloc(i_size);
 	}
 
 	printf("malloc %zu\n", i_size);
@@ -38,7 +39,7 @@ void * operator new(size_t i_size)
 {
 	void* pReturn = nullptr;
 
-	FixedSizeAllocator* pFixedSizeAllocator = MemorySystemProxy::FindFixedSizeAllocator(i_size);
+	FixedSizeAllocator* pFixedSizeAllocator = FindFixedSizeAllocator(i_size);
 
 	if (pFixedSizeAllocator)
 	{
@@ -47,7 +48,7 @@ void * operator new(size_t i_size)
 
 	if (pReturn == nullptr)
 	{
-		pReturn = HeapManagerProxy::alloc(MemorySystemProxy::S_DEFAULT_HEAP_MANAGER, i_size);
+		pReturn = S_DEFAULT_HEAP_MANAGER->_alloc(i_size);
 	}
 
 	printf("malloc %zu\n", i_size);
