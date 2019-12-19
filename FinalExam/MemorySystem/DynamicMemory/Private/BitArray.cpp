@@ -99,19 +99,17 @@ namespace memory_system
 
 		bool BitArray::IsBitSet(size_t i_bitIndex) const
 		{
+
 			size_t index = i_bitIndex / BIT_DIVISOR;
 			size_t bitIndex = i_bitIndex % BIT_DIVISOR;
 
+			const long long targetInt = static_cast<const long long>(m_pBits[index]);
+
 #ifdef _WIN64
-			uint64_t targetInt = m_pBits[index];
-			// Find the bit and whether it's set
+			return (_bittest64(&targetInt, bitIndex));
 #else
-			uint32_t targetInt = m_pBits[index];
-			// Find the bit and whether it's set
-
+			return (_bittest(&targetInt, bitIndex));
 #endif // _WIN64
-
-			return true;
 
 		}
 
