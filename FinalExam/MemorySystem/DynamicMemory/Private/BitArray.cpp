@@ -2,16 +2,37 @@
 #include <stdint.h>
 #include <intrin.h>
 
+
 #ifdef _WIN64
+
+
+#ifndef SET_BIT_VAL
 #define SET_BIT_VAL UINT64_MAX
+#endif // !SET_BIT_VAL
+
+#ifndef BIT_DIVISOR
 #define BIT_DIVISOR 64
+#endif // !BIT_DIVISOR
+
 #pragma intrinsic(_BitScanForward64)
 typedef uint64_t UINT_TYPE;
+
+
 #else
+
+
+#ifndef SET_BIT_VAL
 #define SET_BIT_VAL UINT32_MAX
+#endif // !SET_BIT_VAL
+
+#ifndef BIT_DIVISOR
 #define BIT_DIVISOR 32
+#endif // !BIT_DIVISOR
+
 #pragma intrinsic(_BitScanForward)
 typedef uint32_t UINT_TYPE;
+
+
 #endif // _WIN64
 
 namespace memory_system
