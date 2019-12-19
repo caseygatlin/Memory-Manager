@@ -85,7 +85,7 @@ namespace memory_system
 		{
 			for (size_t i = 0; i < m_size; i++)
 			{
-				m_pBits[i] = 0;
+				m_pBits[i] = 0x00;
 			}
 		}
 
