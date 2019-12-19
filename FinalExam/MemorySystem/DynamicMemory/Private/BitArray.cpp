@@ -150,15 +150,16 @@ namespace memory_system
 			size_t index = i_bitIndex / BIT_DIVISOR;
 			size_t bitIndex = i_bitIndex % BIT_DIVISOR;
 
+			long long targetInt = static_cast<long long>(m_pBits[index]);
+
 #ifdef _WIN64
-			uint64_t targetInt = m_pBits[index];
-			// Clear the bit
-
+			_bittestandreset64(&targetInt, bitIndex);
 #else
-			uint32_t targetInt = m_pBits[index];
-			// Clear the bit
-
+			_bittestandreset(&targetInt, bitIndex);
 #endif // _WIN64
+
+			m_pBits[index] = targetInt;
+
 		}
 
 
