@@ -4,9 +4,11 @@
 #ifdef _WIN64
 #define SET_BIT_VAL UINT64_MAX
 #define BIT_DIVISOR 64
+typedef uint64_t UINT_TYPE;
 #else
 #define SET_BIT_VAL UINT32_MAX
 #define BIT_DIVISOR 32
+typedef uint32_t UINT_TYPE;
 #endif // _WIN64
 
 namespace memory_system
@@ -40,21 +42,12 @@ namespace memory_system
 		{
 			m_size = i_size;
 
-
-#ifdef _WIN64
-			m_pBits = static_cast<uint64_t*>(i_memLocation);
-
-#else
-			m_pBits = static_cast<uint32_t*>(i_memLocation);
-
-#endif
-
+			m_pBits = static_cast<UINT_TYPE*>(i_memLocation);
 
 			for (size_t i = 0; i < i_size; i++)
 			{
 				m_pBits[i] = SET_BIT_VAL;
 			}
-
 
 		}
 
