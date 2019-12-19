@@ -1,13 +1,16 @@
 #include "BitArray.h"
 #include <stdint.h>
+#include <intrin.h>
 
 #ifdef _WIN64
 #define SET_BIT_VAL UINT64_MAX
 #define BIT_DIVISOR 64
+#pragma intrinsic(_BitScanForward64)
 typedef uint64_t UINT_TYPE;
 #else
 #define SET_BIT_VAL UINT32_MAX
 #define BIT_DIVISOR 32
+#pragma intrinsic(_BitScanForward)
 typedef uint32_t UINT_TYPE;
 #endif // _WIN64
 
@@ -146,14 +149,23 @@ namespace memory_system
 		{
 			size_t index = 0;
 
-			while (m_pBits[index] == 0 && index < m_size)
+			while (m_pBits[index] == 0x00 && index < m_size)
 			{
 				index++;
 			}
 
-			//Findsetbit and return
 
-			return true;
+			unsigned long bitIndex = static_cast<unsigned long>(o_bitIndex);
+
+#ifdef _WIN64
+			bool hasSetBit = _BitScanForward64(&bitIndex, m_pBits[index]);
+#else
+			bool hasSetBit = _BitScanForward(&bitIndex, m_pBits[index]);
+#endif // _WIN64
+
+			o_bitIndex = static_cast<size_t>(bitIndex);
+
+			return hasSetBit;
 		}
 
 		bool BitArray::FindFirstClearBit(size_t& o_bitIndex) const
