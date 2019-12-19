@@ -118,16 +118,14 @@ namespace memory_system
 			size_t index = i_bitIndex / BIT_DIVISOR;
 			size_t bitIndex = i_bitIndex % BIT_DIVISOR;
 
-#ifdef _WIN64
-			uint64_t targetInt = m_pBits[index];
-			// Find the bit and whether it's clear
-#else
-			uint32_t targetInt = m_pBits[index];
-			// Find the bit and whether it's clear
+			const long long targetInt = static_cast<const long long>(m_pBits[index]);
 
+#ifdef _WIN64
+			return !(_bittest64(&targetInt, bitIndex));
+#else
+			return !(_bittest(&targetInt, bitIndex));
 #endif // _WIN64
 
-			return true;
 		}
 
 		void BitArray::SetBit(size_t i_bitIndex)
