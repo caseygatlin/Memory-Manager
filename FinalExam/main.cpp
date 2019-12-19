@@ -16,7 +16,7 @@ bool MemorySystem_UnitTest();
 
 int main(int i_arg, char **)
 {
-	using namespace MemorySystemProxy;
+	using namespace memory_system;
 
 	const size_t 		sizeHeap = 1024 * 1024;
 
@@ -48,7 +48,8 @@ int main(int i_arg, char **)
 
 bool MemorySystem_UnitTest()
 {
-	using namespace MemorySystemProxy;
+	using namespace memory_system;
+
 	const size_t maxAllocations = 10 * 1024;
 	std::vector<void *> AllocatedAddresses;
 
