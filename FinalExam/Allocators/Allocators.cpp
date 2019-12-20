@@ -110,6 +110,23 @@ void operator delete(void * i_ptr)
 
 void * operator new[](size_t i_size)
 {
+	void* pReturn = nullptr;
+	FixedSizeAllocator* pFixedSizeAllocator = FindFixedSizeAllocator(i_size);
+
+	if (pFixedSizeAllocator)
+	{
+
+		pReturn = pFixedSizeAllocator->_alloc();
+
+	}
+
+
+	if (pReturn == nullptr)
+	{
+
+		pReturn = HeapManagerProxy::alloc(S_DEFAULT_HEAP_MANAGER, i_size);
+
+	}
 
 	// replace with calls to your HeapManager or FixedSizeAllocators
 	printf("new [] %zu\n", i_size);
