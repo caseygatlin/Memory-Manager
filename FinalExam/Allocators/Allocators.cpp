@@ -1,7 +1,5 @@
 #include "FixedSizeAllocator.h"
-#include "DynamicMemory.h"
 #include "HeapManagerProxy.h"
-
 #include <inttypes.h>
 #include <malloc.h>
 #include <stdio.h>
