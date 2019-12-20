@@ -1,21 +1,19 @@
+#include <assert.h>
 #include "HeapManager.h"
 #include "BlockDesc.h"
 #include <iostream>
-#include <assert.h>
 #include <stdint.h>
 
+// 4 byte guard bands in case of writing over allocated block
+const uint8_t GUARD_BANDING = 4;
+const uint8_t DEFAULT_ALIGNMENT = 4;
 
 namespace memory_system
 {
 	namespace dynamic_memory
 	{
-		// 4 byte guard bands in case of writing over allocated block
-		const uint8_t GUARD_BANDING = 4;
-		const uint8_t DEFAULT_ALIGNMENT = 4;
-
 		HeapManager::HeapManager(const void* i_pHeapMemory, const size_t& i_heapMemorySize)
 		{
-
 			// Calculate start of heap memory
 			uintptr_t		uip_pHeapMemory = reinterpret_cast<uintptr_t>	(i_pHeapMemory);
 			void* v_pHeapStart = reinterpret_cast<void*>		(uip_pHeapMemory + sizeof(BlockDesc));
@@ -48,6 +46,7 @@ namespace memory_system
 
 			return pManager;
 		}
+
 
 
 		// Allocates a given number of bytes and returns memory address
@@ -588,10 +587,10 @@ namespace memory_system
 			BlockDesc* pUsed = m_pUsedMemHead;
 			while (pUsed != nullptr)
 			{
-				std::cout << "Block "		<< blockCount			<< ":\t" << pUsed << std::endl;
-				std::cout << "\tBase:\t"	<< pUsed->m_pBlockBase	<< std::endl;
-				std::cout << "\tSize:\t"	<< pUsed->m_sizeBlock	<< std::endl;
-				std::cout << "\tNext:\t"	<< pUsed->m_pNext		<< std::endl;
+				std::cout << "Block " << blockCount << ":\t" << pUsed << std::endl;
+				std::cout << "\tBase:\t" << pUsed->m_pBlockBase << std::endl;
+				std::cout << "\tSize:\t" << pUsed->m_sizeBlock << std::endl;
+				std::cout << "\tNext:\t" << pUsed->m_pNext << std::endl;
 				blockCount++;
 				pUsed = pUsed->m_pNext;
 			}
@@ -607,7 +606,7 @@ namespace memory_system
 
 				uintptr_t	uip_pUsedBlockBase = reinterpret_cast<uintptr_t>	(m_pUsedMemHead->m_pBlockBase);
 				uintptr_t	uip_pUsedUserPtr = uip_pUsedBlockBase + GUARD_BANDING;
-				void*		v_pUsedUserPtr = reinterpret_cast<void*>			(uip_pUsedUserPtr);
+				void* v_pUsedUserPtr = reinterpret_cast<void*>		(uip_pUsedUserPtr);
 
 				_free(v_pUsedUserPtr);
 			}
@@ -616,11 +615,12 @@ namespace memory_system
 			Collect();
 
 			// Nullify that block
-			m_pFreeMemHead->m_pBlockBase	= nullptr;
-			m_pFreeMemHead->m_pNext			= nullptr;
-			m_pFreeMemHead->m_pPrev			= nullptr;
-			m_pFreeMemHead->m_sizeBlock		= 0;
-			m_pFreeMemHead					= nullptr;
+			m_pFreeMemHead->m_pBlockBase = nullptr;
+			m_pFreeMemHead->m_pNext = nullptr;
+			m_pFreeMemHead->m_pPrev = nullptr;
+			m_pFreeMemHead->m_sizeBlock = 0;
+			m_pFreeMemHead = nullptr;
 		}
 	}
 }
+
