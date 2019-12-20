@@ -1,6 +1,6 @@
 #include "FixedSizeAllocator.h"
 #include "DynamicMemory.h"
-#include "HeapManager.h"
+#include "HeapManagerProxy.h"
 
 #include <inttypes.h>
 #include <malloc.h>
@@ -23,7 +23,7 @@ void * __cdecl malloc(size_t i_size)
 	if (pReturn == nullptr)
 	{
 
-		pReturn = S_DEFAULT_HEAP_MANAGER->_alloc(i_size);
+		pReturn = HeapManagerProxy::alloc(S_DEFAULT_HEAP_MANAGER, i_size);
 
 	}
 
@@ -59,12 +59,12 @@ void * operator new(size_t i_size)
 	if (pReturn == nullptr)
 	{
 
-		pReturn = S_DEFAULT_HEAP_MANAGER->_alloc(i_size);
+		pReturn = HeapManagerProxy::alloc(GetDefaultHeapManager(), i_size);
 
 	}
 
 
-	printf("malloc %zu\n", i_size);
+	printf("new %zu\n", i_size);
 	return pReturn;
 
 }
