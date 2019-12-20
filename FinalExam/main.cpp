@@ -1,7 +1,5 @@
-#include <Windows.h>
-
 #include "MemorySystem.h"
-
+#include <Windows.h>
 #include <assert.h>
 #include <algorithm>
 #include <vector>
