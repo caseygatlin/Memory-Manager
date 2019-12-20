@@ -46,7 +46,7 @@ void __cdecl free(void * i_ptr)
 	{
 		for (size_t i = 0; i < S_NUM_FIXED_SIZE_ALLOCATORS; i++)
 		{
-			if (S_FIXED_SIZE_ALLOCATORS[i]->Contains(i_ptr))
+			if (S_FIXED_SIZE_ALLOCATORS[i] && S_FIXED_SIZE_ALLOCATORS[i]->Contains(i_ptr))
 			{
 				S_FIXED_SIZE_ALLOCATORS[i]->_free(i_ptr);
 
