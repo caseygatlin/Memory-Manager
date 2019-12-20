@@ -2,12 +2,13 @@
 
 #define __TRACK_ALLOCATIONS
 
+#include "DynamicMemory.h"
+#include "HeapManager.h"
 #include <assert.h>
 #include <stdio.h>
 
-#include "DynamicMemory.h"
 
-#include "HeapManager.h"
+
 
 namespace HeapManagerProxy
 {
