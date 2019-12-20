@@ -131,13 +131,19 @@ bool BitArray::IsBitSet(size_t i_bitIndex) const
     
     // Gets the bit and returns it
 #ifdef _WIN64
-    const long long targetInt = static_cast<const long long>(m_pBits[index]);
 
-	return (_bittest64(&targetInt, bitIndex));
+    const long long targetInt   = static_cast<const long long>  (m_pBits[index]);
+    long long ll_bitIndex       = static_cast<long long>        (bitIndex);
+
+	return static_cast<bool>((_bittest64(&targetInt, ll_bitIndex)));
+
 #else
-    const long targetInt = static_cast<const long>(m_pBits[index]);
 
-	return (_bittest(&targetInt, bitIndex));
+    const long targetInt    = static_cast<const long>   (m_pBits[index]);
+    long l_bitIndex         = static_cast<long>         (bitIndex);
+
+	return static_cast<bool>((_bittest(&targetInt, l_bitIndex)));
+
 #endif // _WIN64
 
 }
@@ -155,13 +161,19 @@ bool BitArray::IsBitClear(size_t i_bitIndex) const
 
     // Get the bit and return its complement
 #ifdef _WIN64
-    const long long targetInt = static_cast<const long long>(m_pBits[index]);
 
-	return !(_bittest64(&targetInt, bitIndex));
+    const long long targetInt   = static_cast<const long long>  (m_pBits[index]);
+    long long ll_bitIndex       = static_cast<long long>        (bitIndex);
+
+	return !(_bittest64(&targetInt, ll_bitIndex));
+
 #else
-    const long targetInt = static_cast<const long>(m_pBits[index]);
 
-	return !(_bittest(&targetInt, bitIndex));
+    const long targetInt    = static_cast<const long>   (m_pBits[index]);
+    long l_bitIndex         = static_cast<long>         (bitIndex);
+
+	return !(_bittest(&targetInt, l_bitIndex));
+
 #endif // _WIN64
 
 }
@@ -179,13 +191,20 @@ void BitArray::SetBit(size_t i_bitIndex)
 
     // Set the given bit to 1
 #ifdef _WIN64
-    long long targetInt = static_cast<long long>(m_pBits[index]);
 
-	_bittestandset64(&targetInt, bitIndex);
+    long long targetInt     = static_cast<long long>(m_pBits[index]);
+    long long ll_bitIndex   = static_cast<long long>(bitIndex);
+
+	_bittestandset64(&targetInt, ll_bitIndex);
+
 #else
-    long targetInt = static_cast<long>(m_pBits[index]);
 
-	_bittestandset(&targetInt, bitIndex);
+    long targetInt  = static_cast<long>(m_pBits[index]);
+    long l_bitIndex = static_cast<long>(bitIndex);
+
+
+	_bittestandset(&targetInt, l_bitIndex);
+
 #endif // _WIN64
 
 
@@ -207,13 +226,19 @@ void BitArray::ClearBit(size_t i_bitIndex)
 
     // Set the given bit to 0
 #ifdef _WIN64
-    long long targetInt = static_cast<long long>(m_pBits[index]);
 
-	_bittestandreset64(&targetInt, bitIndex);
+    long long targetInt     = static_cast<long long>(m_pBits[index]);
+    long long ll_bitIndex   = static_cast<long long>(bitIndex);
+
+	_bittestandreset64(&targetInt, ll_bitIndex);
+
 #else
-    long targetInt = static_cast<long>(m_pBits[index]);
 
-	_bittestandreset(&targetInt, bitIndex);
+    long targetInt  = static_cast<long>(m_pBits[index]);
+    long l_bitIndex = static_cast<long>(bitIndex);
+
+	_bittestandreset(&targetInt, l_bitIndex);
+
 #endif // _WIN64
 
 
@@ -243,9 +268,13 @@ bool BitArray::FindFirstSetBit(size_t& o_bitIndex) const
 
     // Return whether there's a 1 and modify given reference
 #ifdef _WIN64
-	bool hasSetBit = _BitScanForward64(&bitIndex, m_pBits[index]);
+
+	bool hasSetBit = static_cast<bool>(_BitScanForward64(&bitIndex, m_pBits[index]));
+
 #else
-	bool hasSetBit = _BitScanForward(&bitIndex, m_pBits[index]);
+
+	bool hasSetBit = static_cast<bool>(_BitScanForward(&bitIndex, m_pBits[index]));
+
 #endif // _WIN64
 
 
@@ -286,8 +315,9 @@ bool BitArray::FindFirstClearBit(size_t& o_bitIndex) const
 	size_t bitIndex = 0;
 
 	
-    // Cycle through each bit in the uint
+    // Cycle through each bit in the uint to find the clear bit
 #ifdef _WIN64
+
     const long long targetInt = static_cast<const long long>(m_pBits[index]);
 
     for (size_t i = 0; i < BIT_DIVISOR; i++)
@@ -301,6 +331,7 @@ bool BitArray::FindFirstClearBit(size_t& o_bitIndex) const
 
 
 #else
+
     const long targetInt = static_cast<const long>(m_pBits[index]);
 
     for (size_t i = 0; i < BIT_DIVISOR; i++)
