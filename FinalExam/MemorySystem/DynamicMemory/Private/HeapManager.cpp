@@ -412,8 +412,8 @@ void HeapManager::collect()
 		// Calculate end of pFree and the address of the next block
 		uintptr_t	uip_pFreeBlockBase	= reinterpret_cast<uintptr_t>	(pFree->m_pBlockBase);
 		uintptr_t	uip_pFreeEndBlock	= uip_pFreeBlockBase + pFree->m_sizeBlock;
-		void*		v_pFreeEndBlock		= reinterpret_cast<void*>	(uip_pFreeEndBlock);
-		void*		v_pFreeNext			= static_cast<void*>	(pFree->m_pNext);
+		void*		v_pFreeEndBlock		= reinterpret_cast<void*>	    (uip_pFreeEndBlock);
+		void*		v_pFreeNext			= static_cast<void*>	        (pFree->m_pNext);
 
 
 		// If pFree can collect the next block
