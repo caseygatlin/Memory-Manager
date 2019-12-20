@@ -4,8 +4,10 @@
 
 class HeapManager;
 
+// Methods for accessing HeapManager methods
 namespace HeapManagerProxy
 {
+
 	inline HeapManager *	CreateHeapManager( const void * i_pMemory, const size_t& i_sizeMemory);
 	inline void				Destroy( HeapManager * i_pManager );
 
