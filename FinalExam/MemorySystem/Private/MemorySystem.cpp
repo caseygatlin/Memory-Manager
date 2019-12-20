@@ -31,7 +31,22 @@ void Collect()
 
 void DestroyMemorySystem()
 {
-	HeapManagerProxy::Destroy(GetDefaultHeapManager());
+	size_t numFSA = S_NUM_FIXED_SIZE_ALLOCATORS;
+
+	for (int j = 0; j < numFSA; j++)
+	{
+		HeapManagerProxy::free(S_DEFAULT_HEAP_MANAGER, S_FIXED_SIZE_ALLOCATORS[j]);
+		S_NUM_FIXED_SIZE_ALLOCATORS--;
+	}
+
+
+	HeapManagerProxy::Destroy(S_DEFAULT_HEAP_MANAGER);
+	S_DEFAULT_HEAP_MANAGER = nullptr;
+	
+	for (int j = 0; j < 5; j++)
+	{
+		S_FIXED_SIZE_ALLOCATORS[j] = nullptr;
+	}
 }
 
 
