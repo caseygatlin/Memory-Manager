@@ -1,5 +1,4 @@
-#ifndef __HEAP_MANAGER_PROXY_H
-#define __HEAP_MANAGER_PROXY_H
+#pragma once
 
 #include <stdint.h>
 
@@ -29,4 +28,3 @@ namespace HeapManagerProxy
 
 #include "HeapManagerProxy-inl.h"
 
-#endif // __HEAP_MANAGER_PROXY_H
