@@ -121,7 +121,7 @@ void BitArray::SetAll()
 
 
 // Returns true if a given bit is 1, false otherwise
-bool BitArray::IsBitSet(size_t i_bitIndex) const
+bool BitArray::IsBitSet(const size_t& i_bitIndex) const
 {
 
     // Convert a bit index into a uint + bit index
@@ -151,7 +151,7 @@ bool BitArray::IsBitSet(size_t i_bitIndex) const
 
 
 // Returns true if a given bit is 0, false otherwise
-bool BitArray::IsBitClear(size_t i_bitIndex) const
+bool BitArray::IsBitClear(const size_t& i_bitIndex) const
 {
 	
     // Convert a bit index into a uint + bit index
@@ -181,7 +181,7 @@ bool BitArray::IsBitClear(size_t i_bitIndex) const
 
 
 // Sets a given bit to 1
-void BitArray::SetBit(size_t i_bitIndex)
+void BitArray::SetBit(const size_t& i_bitIndex)
 {
 	
     // Convert a bit index into a uint + bit index
@@ -216,7 +216,7 @@ void BitArray::SetBit(size_t i_bitIndex)
 
 
 // Sets a given bit to 0
-void BitArray::ClearBit(size_t i_bitIndex)
+void BitArray::ClearBit(const size_t& i_bitIndex)
 {
 
     // Convert a bit index into a uint + bit index
