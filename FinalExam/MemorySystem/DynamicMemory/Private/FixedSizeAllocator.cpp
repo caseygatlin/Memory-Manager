@@ -4,83 +4,83 @@
 
 
 
-		FixedSizeAllocator::FixedSizeAllocator(const void* i_pHeapMemory, const size_t& i_heapMemorySize, const size_t& i_numBlocks, const size_t& i_blockSize)
-		{
-
-			m_BlockSize   = i_blockSize;
-			m_pFreeMem    = const_cast<void*>(i_pHeapMemory);
+FixedSizeAllocator::FixedSizeAllocator(const void* i_pHeapMemory, const size_t& i_heapMemorySize, const size_t& i_numBlocks, const size_t& i_blockSize)
+{
+	m_memorySize  = i_heapMemorySize;
+	m_BlockSize   = i_blockSize;
+	m_pFreeMem    = const_cast<void*>(i_pHeapMemory);
 			
 
-			uintptr_t   uip_BitArrayStart   = reinterpret_cast<uintptr_t>(m_pFreeMem);
-			            uip_BitArrayStart   += i_numBlocks * i_blockSize;
+	uintptr_t   uip_BitArrayStart   = reinterpret_cast<uintptr_t>(m_pFreeMem);
+			    uip_BitArrayStart   += i_numBlocks * i_blockSize;
 
 
-			m_pFreeBits = BitArray::Create(i_numBlocks, reinterpret_cast<void*>(uip_BitArrayStart));
+	m_pFreeBits = BitArray::Create(i_numBlocks, reinterpret_cast<void*>(uip_BitArrayStart));
 
-		}
-
-
-
-		FixedSizeAllocator* FixedSizeAllocator::Create(const void* i_pHeapMemory, const size_t& i_heapMemorySize, const size_t& i_numBlocks, const size_t& i_blockSize)
-		{
-
-			// Defines new FSA in memory
-			FixedSizeAllocator* pFSA = static_cast<FixedSizeAllocator*>(const_cast<void*>(i_pHeapMemory));
-
-
-			// Constructs FSA
-			uintptr_t   uip_FSAMemory   = reinterpret_cast<uintptr_t>  (i_pHeapMemory);
-			void*       v_pFSAStart     = reinterpret_cast<void*>      (uip_FSAMemory + sizeof(FixedSizeAllocator));
-			            *pFSA           = FixedSizeAllocator(v_pFSAStart, i_heapMemorySize, i_numBlocks, i_blockSize);
-
-
-			return pFSA;
-
-		}
+}
 
 
 
-		FixedSizeAllocator::~FixedSizeAllocator()
-		{
+FixedSizeAllocator* FixedSizeAllocator::Create(const void* i_pHeapMemory, const size_t& i_heapMemorySize, const size_t& i_numBlocks, const size_t& i_blockSize)
+{
 
-			size_t firstClear;
-
-			if (m_pFreeBits->FindFirstClearBit(firstClear))
-			{
-
-				// Outstanding allocation
-
-			}
-
-		}
+	// Defines new FSA in memory
+	FixedSizeAllocator* pFSA = static_cast<FixedSizeAllocator*>(const_cast<void*>(i_pHeapMemory));
 
 
+	// Constructs FSA
+	uintptr_t   uip_FSAMemory   = reinterpret_cast<uintptr_t>  (i_pHeapMemory);
+	void*       v_pFSAStart     = reinterpret_cast<void*>      (uip_FSAMemory + sizeof(FixedSizeAllocator));
+			    *pFSA           = FixedSizeAllocator(v_pFSAStart, i_heapMemorySize, i_numBlocks, i_blockSize);
 
-		void* FixedSizeAllocator::_alloc()
-		{
 
-			size_t firstAvailable;
-			if (m_pFreeBits->FindFirstSetBit(firstAvailable))
-			{
+	return pFSA;
 
-				m_pFreeBits->ClearBit(firstAvailable);
+}
 
-				uintptr_t   uipFreeMem   = reinterpret_cast<uintptr_t>  (m_pFreeMem);
-				uintptr_t   uipUserPtr   = uipFreeMem + (firstAvailable * m_BlockSize);
-				void*       pUserPtr     = reinterpret_cast<void*>      (uipUserPtr);
 
-				return pUserPtr;
 
-			}
+FixedSizeAllocator::~FixedSizeAllocator()
+{
 
-			else
-			{
+	size_t firstClear;
 
-				return nullptr;
+	if (m_pFreeBits->FindFirstClearBit(firstClear))
+	{
 
-			}
+		// Outstanding allocation
 
-		}
+	}
+
+}
+
+
+
+void* FixedSizeAllocator::_alloc()
+{
+
+	size_t firstAvailable;
+	if (m_pFreeBits->FindFirstSetBit(firstAvailable))
+	{
+
+		m_pFreeBits->ClearBit(firstAvailable);
+
+		uintptr_t   uipFreeMem   = reinterpret_cast<uintptr_t>  (m_pFreeMem);
+		uintptr_t   uipUserPtr   = uipFreeMem + (firstAvailable * m_BlockSize);
+		void*       pUserPtr     = reinterpret_cast<void*>      (uipUserPtr);
+
+		return pUserPtr;
+
+	}
+
+	else
+	{
+
+		return nullptr;
+
+	}
+
+}
 
 
 
@@ -126,10 +126,9 @@ bool FixedSizeAllocator::Contains(void* i_ptr) const
 }
 
 
+size_t FixedSizeAllocator::GetBlockSize() const
+{
 
-		size_t FixedSizeAllocator::GetBlockSize() const
-		{
+	return m_BlockSize;
 
-			return m_BlockSize;
-
-		}
+}
