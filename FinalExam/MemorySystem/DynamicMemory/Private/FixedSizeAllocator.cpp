@@ -1,7 +1,13 @@
 #include "FixedSizeAllocator.h"
 #include "BitArray.h"
 #include <stdint.h>
+#include <stdio.h>
 
+class HeapManager;
+
+extern HeapManager* S_DEFAULT_HEAP_MANAGER;
+extern FixedSizeAllocator* S_FIXED_SIZE_ALLOCATORS[5];
+extern size_t S_NUM_FIXED_SIZE_ALLOCATORS;
 
 
 FixedSizeAllocator::FixedSizeAllocator(const void* i_pHeapMemory, const size_t& i_heapMemorySize, const size_t& i_numBlocks, const size_t& i_blockSize)

@@ -6,6 +6,13 @@
 #include <malloc.h>
 #include <stdio.h>
 
+class HeapManager;
+class FixedSizeAllocator;
+
+extern HeapManager* S_DEFAULT_HEAP_MANAGER;
+extern FixedSizeAllocator* S_FIXED_SIZE_ALLOCATORS[5];
+extern size_t S_NUM_FIXED_SIZE_ALLOCATORS;
+
 void * __cdecl malloc(size_t i_size)
 {
 

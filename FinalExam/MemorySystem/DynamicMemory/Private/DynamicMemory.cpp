@@ -17,6 +17,11 @@
 
 
 class HeapManager;
+class FixedSizeAllocator;
+
+extern HeapManager* S_DEFAULT_HEAP_MANAGER = nullptr;
+extern FixedSizeAllocator* S_FIXED_SIZE_ALLOCATORS[5] = { nullptr, nullptr, nullptr, nullptr, nullptr };
+extern size_t					S_NUM_FIXED_SIZE_ALLOCATORS = 0;
 
 FixedSizeAllocator* FindFixedSizeAllocator(const size_t& i_sizeBlock)
 {
