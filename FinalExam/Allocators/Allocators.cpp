@@ -6,8 +6,6 @@
 #include <malloc.h>
 #include <stdio.h>
 
-using namespace memory_system::dynamic_memory;
-
 void * __cdecl malloc(size_t i_size)
 {
 
