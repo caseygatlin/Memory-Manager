@@ -18,7 +18,9 @@ extern  size_t               S_NUM_FIXED_SIZE_ALLOCATORS;
 
 
 // Allocate memory using FSA or HeapManager
+#pragma warning ( suppress : 28251 ) //Warning for inconsistent SAL Annotation for Free
 void * __cdecl malloc(size_t i_size)
+#pragma warning ( suppress : 4565 ) //Warnings for multiple definitions of malloc
 {
 
     // Attempt to find an FSA to get memory
@@ -53,8 +55,11 @@ void * __cdecl malloc(size_t i_size)
 
 
 
+
 // Free memory from FSA or HeapManagr
+#pragma warning ( suppress : 28251 ) //Warning for inconsistent SAL Annotation for Free
 void __cdecl free(void * i_ptr)
+#pragma warning ( suppress : 4565 ) //Warning for multiple definitions of Free
 {
 
 	if (i_ptr)
