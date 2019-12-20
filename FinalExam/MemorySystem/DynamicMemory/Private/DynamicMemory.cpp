@@ -102,7 +102,8 @@ FixedSizeAllocator* FindFixedSizeAllocator(const size_t& i_sizeBlock)
     for (size_t i = 0; i < S_NUM_FSA_INIT; i++)
     {
 
-        if (S_FIXED_SIZE_ALLOCATORS[i]->GetBlockSize() == i_sizeBlock)
+        if (S_FIXED_SIZE_ALLOCATORS[i]->GetBlockSize() >= i_sizeBlock &&
+            S_FIXED_SIZE_ALLOCATORS[i]->GetBlockSize() / 2 < i_sizeBlock )
         {
 
             return S_FIXED_SIZE_ALLOCATORS[i];
