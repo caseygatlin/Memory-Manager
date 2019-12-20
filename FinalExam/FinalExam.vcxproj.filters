@@ -51,11 +51,11 @@
     <ClCompile Include="MemorySystem\DynamicMemory\Private\FixedSizeAllocator.cpp">
       <Filter>Source Files\MemorySystem\DynamicMemory\Private</Filter>
     </ClCompile>
-    <ClCompile Include="MemorySystem\DynamicMemory\Private\HeapManager.cpp">
-      <Filter>Source Files\MemorySystem\DynamicMemory\Private</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MemorySystem\DynamicMemory\Private\HeapManager.cpp">
+      <Filter>Source Files\MemorySystem\DynamicMemory\Private</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +78,12 @@
       <Filter>Source Files\MemorySystem\DynamicMemory\Public</Filter>
     </ClInclude>
     <ClInclude Include="MemorySystem\DynamicMemory\Public\HeapManager.h">
+      <Filter>Source Files\MemorySystem\DynamicMemory\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="MemorySystem\DynamicMemory\Public\HeapManagerProxy.h">
+      <Filter>Source Files\MemorySystem\DynamicMemory\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="MemorySystem\DynamicMemory\Public\HeapManagerProxy-inl.h">
       <Filter>Source Files\MemorySystem\DynamicMemory\Public</Filter>
     </ClInclude>
   </ItemGroup>
