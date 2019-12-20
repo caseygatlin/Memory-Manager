@@ -2,10 +2,6 @@
 
 
 
-namespace memory_system
-{
-	namespace dynamic_memory
-	{
 
 		class BitArray;
 
@@ -29,5 +25,3 @@ namespace memory_system
 			BitArray*	m_pFreeBits;
 
 		};
-	}
-}

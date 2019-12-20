@@ -3,10 +3,6 @@
 #include <stdint.h>
 
 
-namespace memory_system
-{
-	namespace dynamic_memory
-	{
 
 		FixedSizeAllocator::FixedSizeAllocator(const void* i_pHeapMemory, const size_t& i_heapMemorySize, const size_t& i_numBlocks, const size_t& i_blockSize)
 		{
@@ -112,5 +108,3 @@ namespace memory_system
 			return m_BlockSize;
 
 		}
-	}
-}
