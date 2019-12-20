@@ -90,18 +90,6 @@ BitArray::BitArray(const size_t& i_size, void* i_memLocation)
 
 
 
-// Destructor
-BitArray::~BitArray()
-{
-
-    // Nullify member variables
-	m_pBits   = nullptr;
-	m_size    = 0;
-		
-}
-
-
-
 // Sets all bits to 0
 void BitArray::ClearAll()
 {
@@ -139,13 +127,16 @@ bool BitArray::IsBitSet(size_t i_bitIndex) const
     // Convert a bit index into a uint + bit index
 	size_t          index       = i_bitIndex / BIT_DIVISOR;
 	size_t          bitIndex    = i_bitIndex % BIT_DIVISOR;
-	const long long targetInt   = static_cast<const long long>(m_pBits[index]);
 
     
     // Gets the bit and returns it
 #ifdef _WIN64
+    const long long targetInt = static_cast<const long long>(m_pBits[index]);
+
 	return (_bittest64(&targetInt, bitIndex));
 #else
+    const long targetInt = static_cast<const long>(m_pBits[index]);
+
 	return (_bittest(&targetInt, bitIndex));
 #endif // _WIN64
 
@@ -160,13 +151,16 @@ bool BitArray::IsBitClear(size_t i_bitIndex) const
     // Convert a bit index into a uint + bit index
 	size_t          index       = i_bitIndex / BIT_DIVISOR;
 	size_t          bitIndex    = i_bitIndex % BIT_DIVISOR;
-	const long long targetInt   = static_cast<const long long>(m_pBits[index]);
 
 
     // Get the bit and return its complement
 #ifdef _WIN64
+    const long long targetInt = static_cast<const long long>(m_pBits[index]);
+
 	return !(_bittest64(&targetInt, bitIndex));
 #else
+    const long targetInt = static_cast<const long>(m_pBits[index]);
+
 	return !(_bittest(&targetInt, bitIndex));
 #endif // _WIN64
 
@@ -181,13 +175,16 @@ void BitArray::SetBit(size_t i_bitIndex)
     // Convert a bit index into a uint + bit index
 	size_t    index       = i_bitIndex / BIT_DIVISOR;
 	size_t    bitIndex    = i_bitIndex % BIT_DIVISOR;
-	long long targetInt   = static_cast<long long>(m_pBits[index]);
 
 
     // Set the given bit to 1
 #ifdef _WIN64
+    long long targetInt = static_cast<long long>(m_pBits[index]);
+
 	_bittestandset64(&targetInt, bitIndex);
 #else
+    long targetInt = static_cast<long>(m_pBits[index]);
+
 	_bittestandset(&targetInt, bitIndex);
 #endif // _WIN64
 
@@ -206,13 +203,16 @@ void BitArray::ClearBit(size_t i_bitIndex)
     // Convert a bit index into a uint + bit index
 	size_t    index       = i_bitIndex / BIT_DIVISOR;
 	size_t    bitIndex    = i_bitIndex % BIT_DIVISOR;
-	long long targetInt   = static_cast<long long>(m_pBits[index]);
 
 
     // Set the given bit to 0
 #ifdef _WIN64
+    long long targetInt = static_cast<long long>(m_pBits[index]);
+
 	_bittestandreset64(&targetInt, bitIndex);
 #else
+    long targetInt = static_cast<long>(m_pBits[index]);
+
 	_bittestandreset(&targetInt, bitIndex);
 #endif // _WIN64
 
@@ -263,39 +263,54 @@ bool BitArray::FindFirstClearBit(size_t& o_bitIndex) const
 	
     // Cycle through the set bits
 	size_t index = 0;
+    bool hasClearBit = false;
 	
-	while (m_pBits[index] == SET_BIT_VAL && index < m_size)
-	{
-
-		index++;
-
-	}
+    for (size_t i = 0; i < m_size; i++)
+    {
+        if (m_pBits[i] == 0x00)
+        {
+            hasClearBit = true;
+            index = i;
+            break;
+        }
+    }
 
     
     // Check whether the last uint is set or not
-	if (m_pBits[index] == SET_BIT_VAL)
+	if (!hasClearBit)
 	{
 		return false;
 	}
 
 
 	size_t bitIndex = 0;
-	const long long targetInt = static_cast<const long long>(m_pBits[index]);
 
 	
     // Cycle through each bit in the uint
 #ifdef _WIN64
+    const long long targetInt = static_cast<const long long>(m_pBits[index]);
 
-	while (_bittest64(&targetInt, bitIndex) && bitIndex < BIT_DIVISOR)
-	{
-		bitIndex++;
-	}
+    for (size_t i = 0; i < BIT_DIVISOR; i++)
+    {
+        if (!(_bittest64(&targetInt, i)))
+        {
+            bitIndex = i;
+            break;
+        }
+    }
+
 
 #else
-	while (_bittest(&targetInt, bitIndex) && bitIndex < BIT_DIVISOR)
-	{
-		bitIndex++;
-	}
+    const long targetInt = static_cast<const long>(m_pBits[index]);
+
+    for (size_t i = 0; i < BIT_DIVISOR; i++)
+    {
+        if (!(_bittest(&targetInt, i)))
+        {
+            bitIndex = i;
+            break;
+        }
+    }
 
 #endif // _WIN64
 
