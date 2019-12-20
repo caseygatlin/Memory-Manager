@@ -1,6 +1,6 @@
-#include <assert.h>
-#include "HeapManager.h"
 #include "BlockDesc.h"
+#include "HeapManager.h"
+#include <assert.h>
 #include <iostream>
 #include <stdint.h>
 
