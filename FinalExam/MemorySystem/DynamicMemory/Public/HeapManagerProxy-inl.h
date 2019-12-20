@@ -26,7 +26,6 @@ namespace HeapManagerProxy
 
 	inline void * alloc(HeapManager * i_pManager, const size_t& i_size)
 	{
-		bool isDefault = i_pManager == S_DEFAULT_HEAP_MANAGER;
 		assert(i_pManager);
 
 		return i_pManager->_alloc(i_size);
