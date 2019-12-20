@@ -26,8 +26,7 @@ bool InitializeMemorySystem(void* i_pHeapMemory, size_t i_sizeHeapMemory)
 
 void Collect()
 {
-// coalesce free blocks
-// you may or may not need to do this depending on how you've implemented your HeapManager
+	HeapManagerProxy::Collect(S_DEFAULT_HEAP_MANAGER);
 }
 
 void DestroyMemorySystem()
