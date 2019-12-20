@@ -84,17 +84,34 @@
 
 
 
-		bool FixedSizeAllocator::_free(void* i_ptr)
+bool FixedSizeAllocator::_free(void* i_ptr)
+{
+
+	// Check that pointer is a valid pointer within this allocator
+	if (i_ptr && Contains(i_ptr))
+	{
+		uintptr_t uip_Ptr = reinterpret_cast<uintptr_t>(i_ptr);
+		uintptr_t uip_FreeMem = reinterpret_cast<uintptr_t>(m_pFreeMem);
+		uintptr_t uip_FreeBits = reinterpret_cast<uintptr_t>(m_pFreeBits);
+
+		// Check if it's an outstanding allocation
+		size_t index = 0;
+		while (uip_Ptr != uip_FreeMem + m_BlockSize * index && uip_FreeMem + m_BlockSize * index < uip_FreeBits)
 		{
+			index++;
+		}
 
-			// Check that pointer is a valid pointer within this allocator
-			// And that it's an outstanding allocation
-			if (i_ptr)
-			{
+		if (uip_Ptr == uip_FreeMem + m_BlockSize * index)
+		{
+			m_pFreeBits->SetBit(index);
+			return true;
+		}
+		
+	}
 
-			}
+	return false;
 
-			// Set bit for that block
+}
 
 bool FixedSizeAllocator::Contains(void* i_ptr) const
 {
