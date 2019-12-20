@@ -15,10 +15,6 @@
 #endif // !BIT_DIVISOR
 #endif // _WIN64
 
-namespace memory_system
-{
-	namespace dynamic_memory
-	{
 
 		class HeapManager;
 
