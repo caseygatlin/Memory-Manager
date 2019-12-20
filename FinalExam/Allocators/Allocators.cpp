@@ -137,7 +137,7 @@ void * operator new[](size_t i_size)
 
 	// replace with calls to your HeapManager or FixedSizeAllocators
 	printf("new [] %zu\n", i_size);
-	return _aligned_malloc(i_size, 4);
+	return pReturn;
 
 }
 
@@ -164,6 +164,5 @@ void operator delete [](void * i_ptr)
 
 
 	printf("delete [] 0x%" PRIXPTR "\n", reinterpret_cast<uintptr_t>(i_ptr));
-	return _aligned_free(i_ptr);
 
 }
