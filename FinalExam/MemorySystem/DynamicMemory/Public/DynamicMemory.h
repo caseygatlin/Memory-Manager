@@ -13,7 +13,7 @@ void					CreateFixedSizeAllocator(const size_t& i_sizeBlock, const size_t& i_num
 
 
 // Create Default Heap Manager
-HeapManager*			CreateDefaultHeap(void* i_pHeapMemory, size_t i_sizeHeapMemory);
+HeapManager*			CreateDefaultHeap(void* i_pHeapMemory, const size_t& i_sizeHeapMemory);
 
 
 // Get Default Heap Manager
