@@ -1,7 +1,7 @@
-#include "MemorySystem.h"
-#include "FixedSizeAllocatorInitData.h"
 #include "DynamicMemory.h"
+#include "FixedSizeAllocatorInitData.h"
 #include "HeapManagerProxy.h"
+#include "MemorySystem.h"
 #include <assert.h>
 
 class HeapManager;
