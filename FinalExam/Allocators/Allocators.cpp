@@ -35,11 +35,26 @@ void * __cdecl malloc(size_t i_size)
 
 void __cdecl free(void * i_ptr)
 {
+	if (i_ptr)
+	{
+		for (size_t i = 0; i < S_NUM_FIXED_SIZE_ALLOCATORS; i++)
+		{
+			if (S_FIXED_SIZE_ALLOCATORS[i]->Contains(i_ptr))
+			{
+				S_FIXED_SIZE_ALLOCATORS[i]->_free(i_ptr);
 
-	// replace with calls to your HeapManager or FixedSizeAllocators
+				printf("free 0x%" PRIXPTR "\n", reinterpret_cast<uintptr_t>(i_ptr));
+				return;
+			}
+		}
+
+		if (S_DEFAULT_HEAP_MANAGER)
+		{
+			HeapManagerProxy::free(S_DEFAULT_HEAP_MANAGER, i_ptr);
+		}
+	}
+
 	printf("free 0x%" PRIXPTR "\n", reinterpret_cast<uintptr_t>(i_ptr));
-	return _aligned_free(i_ptr);
-
 }
 
 void * operator new(size_t i_size)
