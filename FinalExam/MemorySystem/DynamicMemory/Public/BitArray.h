@@ -2,10 +2,6 @@
 
 #include <stdint.h>
 
-namespace memory_system
-{
-	namespace dynamic_memory
-	{
 
 		class FixedSizeAllocator;
 
@@ -53,5 +49,3 @@ namespace memory_system
 			size_t m_size;
 
 		};
-	}
-}

@@ -35,10 +35,6 @@ typedef uint32_t UINT_TYPE;
 
 #endif // _WIN64
 
-namespace memory_system
-{
-	namespace dynamic_memory
-	{
 
 
 		BitArray* BitArray::Create(const size_t& i_numBits, const void* i_memLocation)
@@ -257,5 +253,4 @@ namespace memory_system
 		{
 			return true;
 		}
-	}
-}
+
