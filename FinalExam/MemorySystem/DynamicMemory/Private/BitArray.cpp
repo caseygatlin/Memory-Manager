@@ -1,6 +1,6 @@
 #include "BitArray.h"
-#include <stdint.h>
 #include <intrin.h>
+#include <stdint.h>
 
 
 #ifdef _WIN64
