@@ -67,17 +67,21 @@ FixedSizeAllocator::~FixedSizeAllocator()
 	if (m_pFreeBits && m_pFreeBits->FindFirstClearBit(firstClear))
 	{
 
-		printf("Fixed Size Allocator has outstanding memory...");
+#ifdef _DEBUG
+		printf("\nFixed Size Allocator has outstanding memory...\n");
+#endif
 
 	}
 
-    // Nullify member variables
-	m_pFreeBits->   ~BitArray();
-	m_memorySize    = 0;
-	m_BlockSize     = 0;
-	m_pFreeMem      = nullptr;
-	m_pFreeBits     = nullptr;
-
+    else
+    {
+        // Nullify member variables
+        m_pFreeBits->   ~BitArray();
+        m_memorySize = 0;
+        m_BlockSize = 0;
+        m_pFreeMem = nullptr;
+        m_pFreeBits = nullptr;
+    }
 }
 
 
