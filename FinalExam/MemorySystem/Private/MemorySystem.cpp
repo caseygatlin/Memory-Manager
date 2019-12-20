@@ -18,7 +18,7 @@ extern size_t               S_NUM_FIXED_SIZE_ALLOCATORS;
 
 
 // Creates a Default Heap Manager and an array of FSA's
-bool InitializeMemorySystem(void* i_pHeapMemory, size_t i_sizeHeapMemory)
+bool InitializeMemorySystem(void* i_pHeapMemory, const size_t& i_sizeHeapMemory)
 {
 
     // Create Default Heap Manager
