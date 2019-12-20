@@ -1,9 +1,6 @@
 #pragma once
 
-namespace memory_system
-{
-	namespace dynamic_memory
-	{
+
 		class FixedSizeAllocator;
 		class HeapManager;
 
@@ -15,5 +12,3 @@ namespace memory_system
 		HeapManager*			CreateDefaultHeap(void* i_pHeapMemory, size_t i_sizeHeapMemory);
 		FixedSizeAllocator*		FindFixedSizeAllocator(const size_t& i_sizeBlock);
 
-	}
-}
