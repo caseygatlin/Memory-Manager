@@ -16,6 +16,7 @@
 			void*	_alloc();
 			bool	_free(void* i_ptr);
 
+	bool Contains(void* i_ptr) const;
 			size_t	GetBlockSize() const;
 
 
