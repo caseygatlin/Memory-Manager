@@ -4,29 +4,11 @@
 #include <iostream>
 #include <stdint.h>
 
+
+
 // 4 byte guard bands in case of writing over allocated block
-const uint8_t GUARD_BANDING = 4;
+const uint8_t GUARD_BANDING     = 4;
 const uint8_t DEFAULT_ALIGNMENT = 4;
-
-
-HeapManager::HeapManager(const void* i_pHeapMemory, const size_t& i_heapMemorySize)
-{
-	// Calculate start of heap memory
-	uintptr_t		uip_pHeapMemory		= reinterpret_cast<uintptr_t>	(i_pHeapMemory);
-	void*			v_pHeapStart		= reinterpret_cast<void*>		(uip_pHeapMemory + sizeof(BlockDesc));
-
-	// Define FreeMem
-	m_pFreeMemHead					= static_cast<BlockDesc*>(const_cast<void*>(i_pHeapMemory));
-	m_pFreeMemHead->m_pBlockBase	= v_pHeapStart;
-	m_pFreeMemHead->m_pPrev			= nullptr;
-	m_pFreeMemHead->m_pNext			= nullptr;
-	m_pFreeMemHead->m_sizeBlock		= i_heapMemorySize - sizeof(BlockDesc);
-
-	// Define empty UsedMem
-	m_pUsedMemHead					= nullptr;
-
-}
-
 
 
 // Inizializes new HeapManager
@@ -42,6 +24,28 @@ HeapManager* HeapManager::create(const void* i_pHeapMemory, const size_t& i_heap
 					*pManager		= HeapManager(v_pHeapStart, i_heapMemorySize);
 
 	return pManager;
+}
+
+
+
+// Constructor
+HeapManager::HeapManager(const void* i_pHeapMemory, const size_t& i_heapMemorySize)
+{
+
+    // Calculate start of heap memory
+    uintptr_t		uip_pHeapMemory = reinterpret_cast<uintptr_t>	(i_pHeapMemory);
+    void*           v_pHeapStart    = reinterpret_cast<void*>		(uip_pHeapMemory + sizeof(BlockDesc));
+
+    // Define FreeMem
+    m_pFreeMemHead                  = static_cast<BlockDesc*>(const_cast<void*>(i_pHeapMemory));
+    m_pFreeMemHead->m_pBlockBase    = v_pHeapStart;
+    m_pFreeMemHead->m_pPrev         = nullptr;
+    m_pFreeMemHead->m_pNext         = nullptr;
+    m_pFreeMemHead->m_sizeBlock     = i_heapMemorySize - sizeof(BlockDesc);
+
+    // Define empty UsedMem
+    m_pUsedMemHead = nullptr;
+
 }
 
 
@@ -158,6 +162,9 @@ void* HeapManager::_alloc(const size_t& i_bytes)
 	return nullptr;
 }
 
+
+
+// Allocates given number of bytes and returns address on given alignment
 void* HeapManager::_alloc(const size_t& i_bytes, const unsigned int& i_alignment)
 {
 
@@ -267,6 +274,9 @@ void* HeapManager::_alloc(const size_t& i_bytes, const unsigned int& i_alignment
 	return nullptr;
 }
 
+
+
+// Frees a given memory address
 bool HeapManager::_free(void* i_ptr)
 {
 
@@ -387,8 +397,12 @@ bool HeapManager::_free(void* i_ptr)
 	}
 }
 
+
+
+// Coalesces free blocks adjacent in memory
 void HeapManager::collect()
 {
+
 	// Define iterator
 	BlockDesc* pFree = m_pFreeMemHead;
 
@@ -459,8 +473,12 @@ void HeapManager::collect()
 	}
 }
 
+
+
+// Returns the size of the largest free block
 size_t HeapManager::getLargestFreeBlock() const
 {
+
 	// Define max & iterator
 	size_t		max		= 0;
 	BlockDesc*	pFree	= m_pFreeMemHead;
@@ -483,8 +501,12 @@ size_t HeapManager::getLargestFreeBlock() const
 	return max;
 }
 
+
+
+// Returns the total amount of free memory
 size_t HeapManager::getTotalFreeMemory() const
 {
+
 	// Define size & iterator
 	size_t		total	= 0;
 	BlockDesc*	pFree	= m_pFreeMemHead;
@@ -501,8 +523,12 @@ size_t HeapManager::getTotalFreeMemory() const
 	return total;
 }
 
+
+
+// Check whether a memory address is contained in this manager
 bool HeapManager::Contains(const void* i_ptr) const
 {
+
 	// Define iterator for FreeMem
 	BlockDesc* pFree = m_pFreeMemHead;
 
@@ -526,12 +552,18 @@ bool HeapManager::Contains(const void* i_ptr) const
 
 	}
 
+
 	// If not in FreeMem, check if it's allocated
 	return IsAllocated(i_ptr);
+
 }
 
+
+
+// Check whether a memory address has been allocated
 bool HeapManager::IsAllocated(const void* i_ptr) const
 {
+
 	// Define iterator
 	BlockDesc* pUsed = m_pUsedMemHead;
 
@@ -556,7 +588,10 @@ bool HeapManager::IsAllocated(const void* i_ptr) const
 	}
 
 	return false;
+
 }
+
+
 
 // Displays the current free blocks and their relevant values
 void HeapManager::ShowFreeBlocks() const
@@ -577,6 +612,8 @@ void HeapManager::ShowFreeBlocks() const
 	std::cout << std::endl;
 }
 
+
+
 // Displays the current used blocks and their relevant values
 void HeapManager::ShowOutstandingAllocations() const
 {
@@ -596,6 +633,9 @@ void HeapManager::ShowOutstandingAllocations() const
 	std::cout << std::endl;
 }
 
+
+
+// Frees and collects memory, nullifies HeapManager
 void HeapManager::destroy()
 {
 
@@ -619,4 +659,5 @@ void HeapManager::destroy()
 	m_pFreeMemHead->m_pPrev			= nullptr;
 	m_pFreeMemHead->m_sizeBlock		= 0;
 	m_pFreeMemHead					= nullptr;
+
 }
