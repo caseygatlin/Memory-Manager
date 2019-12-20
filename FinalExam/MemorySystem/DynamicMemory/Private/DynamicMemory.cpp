@@ -1,6 +1,6 @@
+#include "BitArray.h"
 #include "DynamicMemory.h"
 #include "FixedSizeAllocator.h"
-#include "BitArray.h"
 #include "FixedSizeAllocatorInitData.h"
 #include "HeapManagerProxy.h"
 #include <assert.h>
