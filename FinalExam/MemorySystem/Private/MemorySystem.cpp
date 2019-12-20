@@ -5,9 +5,6 @@
 #include <assert.h>
 
 
-namespace memory_system
-{
-	using namespace dynamic_memory;
 
 	bool InitializeMemorySystem(void* i_pHeapMemory, size_t i_sizeHeapMemory)
 	{
@@ -34,4 +31,3 @@ namespace memory_system
 	}
 
 
-}
