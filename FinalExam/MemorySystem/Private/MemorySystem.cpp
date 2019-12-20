@@ -57,7 +57,7 @@ void DestroyMemorySystem()
     // Free FSA's
 	size_t numFSA = S_NUM_FIXED_SIZE_ALLOCATORS;
 
-	for (int j = 0; j < numFSA; j++)
+	for (size_t j = 0; j < numFSA; j++)
 	{
 
 		HeapManagerProxy::free(S_DEFAULT_HEAP_MANAGER, S_FIXED_SIZE_ALLOCATORS[j]);
@@ -76,7 +76,7 @@ void DestroyMemorySystem()
 	
 
     // Nullify FSA's
-	for (int j = 0; j < numFSA; j++)
+	for (size_t j = 0; j < numFSA; j++)
 	{
 
 		S_FIXED_SIZE_ALLOCATORS[j] = nullptr;
