@@ -12,7 +12,7 @@
 
 bool MemorySystem_UnitTest();
 
-int main(int i_arg, char **)
+int main(char **)
 {
 
 	const size_t 		sizeHeap = 1024 * 1024;
