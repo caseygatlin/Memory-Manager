@@ -17,9 +17,6 @@ public:
 	// Constructor
 	BitArray(const size_t& i_size, void* i_memLocation);
 
-	// Destructor
-	~BitArray();
-
 
     // Clear / Set all bits
 	void ClearAll();
