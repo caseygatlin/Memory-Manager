@@ -102,8 +102,16 @@ FixedSizeAllocator* FindFixedSizeAllocator(const size_t& i_sizeBlock)
     for (size_t i = 0; i < S_NUM_FSA_INIT; i++)
     {
 
+        // Define min for range that an FSA will accept
+        size_t smallestAllocInRange = 0;
+        if (i != 0)
+        {
+            smallestAllocInRange = S_FSA_INITS[i - 1].sizeBlock;
+        }
+
+        // If in range, return allocator
         if (S_FIXED_SIZE_ALLOCATORS[i]->GetBlockSize() >= i_sizeBlock &&
-            S_FIXED_SIZE_ALLOCATORS[i]->GetBlockSize() / 2 < i_sizeBlock )
+            smallestAllocInRange < i_sizeBlock )
         {
 
             return S_FIXED_SIZE_ALLOCATORS[i];
