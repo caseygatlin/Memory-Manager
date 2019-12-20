@@ -49,7 +49,6 @@ HeapManager* HeapManager::create(const void* i_pHeapMemory, const size_t& i_heap
 // Allocates a given number of bytes and returns memory address
 void* HeapManager::_alloc(const size_t& i_bytes)
 {
-	std::cout << "\tMemory Allocated." << std::endl;
 
 	// Adjust size to include Guard Banding & BlockDesc
 	size_t	bytesToAlloc	= i_bytes;
@@ -161,8 +160,6 @@ void* HeapManager::_alloc(const size_t& i_bytes)
 
 void* HeapManager::_alloc(const size_t& i_bytes, const unsigned int& i_alignment)
 {
-	std::cout << "\tAligned Memory Allocated." << std::endl;
-
 
 	// Adjust size to include Guard Banding & BlockDesc
 	size_t	bytesToAlloc	= i_bytes;
@@ -272,8 +269,6 @@ void* HeapManager::_alloc(const size_t& i_bytes, const unsigned int& i_alignment
 
 bool HeapManager::_free(void* i_ptr)
 {
-	std::cout << "\tMemory Freed." << std::endl;
-
 
 	// If attempting to free a nullptr, return true
 	if (!i_ptr)
