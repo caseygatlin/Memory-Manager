@@ -24,13 +24,13 @@ public:
 
 
     // Check a bit
-	bool IsBitSet(size_t i_bitIndex) const;
-	bool IsBitClear(size_t i_bitIndex) const;
+	bool IsBitSet(const size_t& i_bitIndex) const;
+	bool IsBitClear(const size_t& i_bitIndex) const;
 
 
     // Change a bit
-	void SetBit(size_t i_bitIndex);
-	void ClearBit(size_t i_bitIndex);
+	void SetBit(const size_t& i_bitIndex);
+	void ClearBit(const size_t& i_bitIndex);
 
 
 	// Finds and outputs index of first set / clear bit
