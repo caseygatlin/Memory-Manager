@@ -67,7 +67,7 @@ void CreateFixedSizeAllocator(const size_t& i_sizeBlock, const size_t& i_numBloc
 
 
 // Creates, constructs, and returns the Default Heap Manager
-HeapManager* CreateDefaultHeap(void* i_pHeapMemory, size_t i_sizeHeapMemory)
+HeapManager* CreateDefaultHeap(void* i_pHeapMemory, const size_t& i_sizeHeapMemory)
 {
 
 	if (S_DEFAULT_HEAP_MANAGER == nullptr)
