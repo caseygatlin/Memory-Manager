@@ -129,11 +129,14 @@ bool FixedSizeAllocator::_free(void* i_ptr)
 
 bool FixedSizeAllocator::Contains(void* i_ptr) const
 {
-	uintptr_t uip_Ptr = reinterpret_cast<uintptr_t>(i_ptr);
-	uintptr_t uip_FreeMem = reinterpret_cast<uintptr_t>(m_pFreeMem);
-	if (uip_Ptr >= uip_FreeMem && uip_Ptr < uip_FreeMem + m_memorySize)
+	if (i_ptr)
 	{
-		return true;
+		uintptr_t uip_Ptr = reinterpret_cast<uintptr_t>(i_ptr);
+		uintptr_t uip_FreeMem = reinterpret_cast<uintptr_t>(m_pFreeMem);
+		if (uip_Ptr >= uip_FreeMem && uip_Ptr < uip_FreeMem + m_memorySize)
+		{
+			return true;
+		}
 	}
 
 	return false;
@@ -146,3 +149,4 @@ size_t FixedSizeAllocator::GetBlockSize() const
 	return m_BlockSize;
 
 }
+
