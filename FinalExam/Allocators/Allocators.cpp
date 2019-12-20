@@ -1,3 +1,4 @@
+#include "DynamicMemory.h"
 #include "FixedSizeAllocator.h"
 #include "HeapManagerProxy.h"
 #include <inttypes.h>
