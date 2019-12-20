@@ -38,6 +38,9 @@
     <ClInclude Include="MemorySystem\DynamicMemory\Public\HeapManagerProxy.h" />
     <ClInclude Include="MemorySystem\Public\MemorySystem.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="readme.txt" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{41797437-2873-4833-B294-7913DB3A24FE}</ProjectGuid>
