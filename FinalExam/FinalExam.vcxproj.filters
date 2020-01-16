@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Allocators">
+      <UniqueIdentifier>{a258c4ba-27f8-4c8f-97f3-b28071d2cfc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MemorySystem">
+      <UniqueIdentifier>{9ccf6ff3-11d1-4716-86e9-f58bb2e038d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MemorySystem\Public">
+      <UniqueIdentifier>{866b4ac6-a545-4ab1-9bf1-67cc5dd29249}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MemorySystem\Private">
+      <UniqueIdentifier>{1005144e-e19d-45da-97d9-9ef5fc608c0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MemorySystem\DynamicMemory">
+      <UniqueIdentifier>{2e059d77-3a23-4ecb-a834-1fe3efbec789}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MemorySystem\DynamicMemory\Public">
+      <UniqueIdentifier>{90d16491-d773-477e-b0f8-4c26f756d00e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MemorySystem\DynamicMemory\Private">
+      <UniqueIdentifier>{de415b51-c19f-4cc0-9cc2-ad2efe0124fc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Allocators\Allocators.cpp">
+      <Filter>Source Files\Allocators</Filter>
+    </ClCompile>
+    <ClCompile Include="MemorySystem\Private\MemorySystem.cpp">
+      <Filter>Source Files\MemorySystem\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="MemorySystem\DynamicMemory\Private\BitArray.cpp">
+      <Filter>Source Files\MemorySystem\DynamicMemory\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="MemorySystem\DynamicMemory\Private\DynamicMemory.cpp">
+      <Filter>Source Files\MemorySystem\DynamicMemory\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="MemorySystem\DynamicMemory\Private\FixedSizeAllocator.cpp">
+      <Filter>Source Files\MemorySystem\DynamicMemory\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MemorySystem\DynamicMemory\Private\HeapManager.cpp">
+      <Filter>Source Files\MemorySystem\DynamicMemory\Private</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MemorySystem\Public\MemorySystem.h">
+      <Filter>Source Files\MemorySystem\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="MemorySystem\DynamicMemory\Public\BitArray.h">
+      <Filter>Source Files\MemorySystem\DynamicMemory\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="MemorySystem\DynamicMemory\Public\BlockDesc.h">
+      <Filter>Source Files\MemorySystem\DynamicMemory\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="MemorySystem\DynamicMemory\Public\DynamicMemory.h">
+      <Filter>Source Files\MemorySystem\DynamicMemory\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="MemorySystem\DynamicMemory\Public\FixedSizeAllocator.h">
+      <Filter>Source Files\MemorySystem\DynamicMemory\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="MemorySystem\DynamicMemory\Public\FixedSizeAllocatorInitData.h">
+      <Filter>Source Files\MemorySystem\DynamicMemory\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="MemorySystem\DynamicMemory\Public\HeapManager.h">
+      <Filter>Source Files\MemorySystem\DynamicMemory\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="MemorySystem\DynamicMemory\Public\HeapManagerProxy.h">
+      <Filter>Source Files\MemorySystem\DynamicMemory\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="MemorySystem\DynamicMemory\Public\HeapManagerProxy-inl.h">
+      <Filter>Source Files\MemorySystem\DynamicMemory\Public</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="readme.txt">
+      <Filter>Source Files</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
